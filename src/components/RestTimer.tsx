@@ -47,7 +47,7 @@ export default function RestTimer({ endsAt, total, soundOn, onDone, onExtend }: 
 
   return (
     <div className="rest-timer">
-      <div className="rest-bar" style={{ width: `${pct * 100}%` }} />
+      <div className="rest-bar" style={{ transform: `scaleX(${pct})` }} />
       <span className="rest-time">Rest {Math.floor(secs / 60)}:{String(secs % 60).padStart(2, '0')}</span>
       <button onClick={() => onExtend(30)}>+30s</button>
       <button onClick={onDone}>Skip</button>

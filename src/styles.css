@@ -69,7 +69,7 @@ button:active { filter: brightness(1.2); }
 .tick { margin-left: auto; background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
 .add-set { align-self: flex-start; font-size: 13px; color: var(--text-dim); }
 .rest-timer { position: relative; z-index: 20; overflow: hidden; display: flex; align-items: center; gap: 8px; background: var(--surface-2); border-top: 1px solid var(--border); padding: 10px 16px; }
-.rest-bar { position: absolute; left: 0; top: 0; bottom: 0; background: rgba(79, 142, 247, 0.18); transition: width 0.25s linear; }
+.rest-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: rgba(79, 142, 247, 0.18); transform-origin: left; transition: transform 0.25s linear; }
 .rest-time { font-variant-numeric: tabular-nums; font-weight: 600; z-index: 1; flex: 1; }
 .rest-timer button { z-index: 1; min-height: 44px; padding: 0 12px; }
 
