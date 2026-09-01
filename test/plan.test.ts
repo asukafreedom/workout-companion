@@ -28,6 +28,20 @@ describe('plan data integrity', () => {
         expect(WORKOUTS.some((w) => w.id === day.workoutId)).toBe(true);
   });
 
+  it('pins the week\'s day-to-workout mapping', () => {
+    expect(WEEK[0].kind).toBe('rest');
+    expect(WEEK[1].kind).toBe('workout');
+    expect((WEEK[1] as { workoutId: string }).workoutId).toBe('upperA');
+    expect(WEEK[2].kind).toBe('workout');
+    expect((WEEK[2] as { workoutId: string }).workoutId).toBe('lowerA');
+    expect(WEEK[3].kind).toBe('cardio');
+    expect(WEEK[4].kind).toBe('workout');
+    expect((WEEK[4] as { workoutId: string }).workoutId).toBe('upperB');
+    expect(WEEK[5].kind).toBe('rest');
+    expect(WEEK[6].kind).toBe('workout');
+    expect((WEEK[6] as { workoutId: string }).workoutId).toBe('lowerB');
+  });
+
   it('muscle ids are valid and rep ranges sane', () => {
     for (const ex of EXERCISES) {
       for (const m of [...ex.primary, ...ex.secondary])

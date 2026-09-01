@@ -8,7 +8,18 @@ function fakeLocalStorage() {
     getItem: (k: string) => m.get(k) ?? null,
     setItem: (k: string, v: string) => void m.set(k, v),
     removeItem: (k: string) => void m.delete(k),
+    key: (i: number) => [...m.keys()][i] ?? null,
+    get length() { return m.size; },
   } as Storage;
+}
+
+function recoveryEntries(): [string, string][] {
+  const entries: [string, string][] = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i)!;
+    if (k.startsWith(STORAGE_KEY + '_recovery_')) entries.push([k, localStorage.getItem(k)!]);
+  }
+  return entries;
 }
 
 beforeEach(() => {
@@ -31,18 +42,20 @@ describe('store', () => {
     expect(loadData().setLogs).toHaveLength(1);
   });
 
-  it('preserves corrupt data under recovery key and starts fresh', () => {
+  it('preserves corrupt data under a recovery key and starts fresh', () => {
     localStorage.setItem(STORAGE_KEY, '{not json!!');
     const d = loadData();
     expect(d.setLogs).toEqual([]);
-    expect(localStorage.getItem(STORAGE_KEY + '_recovery')).toBe('{not json!!');
+    const entries = recoveryEntries();
+    expect(entries).toHaveLength(1);
+    expect(entries[0][1]).toBe('{not json!!');
   });
 
   it('treats wrong-shaped data as corrupt', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 99, hello: true }));
     const d = loadData();
     expect(d.version).toBe(1);
-    expect(localStorage.getItem(STORAGE_KEY + '_recovery')).not.toBeNull();
+    expect(recoveryEntries()).toHaveLength(1);
   });
 });
 
