@@ -4,6 +4,7 @@ import { loadData, saveData } from './storage/store';
 import TodayScreen from './components/TodayScreen';
 import ExerciseDetail from './components/ExerciseDetail';
 import RestTimer from './components/RestTimer';
+import ProgressScreen from './components/ProgressScreen';
 
 export type Tab = 'today' | 'progress' | 'plan';
 
@@ -33,7 +34,7 @@ export default function App() {
         {tab === 'today' && (
           <TodayScreen data={data} onOpen={setOpenExerciseId} onChooseVariant={chooseVariant} />
         )}
-        {tab === 'progress' && <div className="screen">Progress — Task 13</div>}
+        {tab === 'progress' && <ProgressScreen data={data} update={update} />}
         {tab === 'plan' && <div className="screen">Plan — Task 14</div>}
       </main>
       {openExerciseId && (
