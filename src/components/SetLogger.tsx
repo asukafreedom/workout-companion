@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Exercise, UserData } from '../data/types';
 import { lastSession } from '../logic/sessions';
 import { suggestNext } from '../logic/progression';
@@ -13,7 +13,13 @@ interface Props {
 
 interface RowState { weightKg: number; reps: number }
 
-function WeightInput({ value, onCommit }: { value: number; onCommit(v: number): void }) {
+interface WeightInputProps {
+  value: number;
+  onCommit(v: number): void;
+  onDraftChange(v: string): void;
+}
+
+function WeightInput({ value, onCommit, onDraftChange }: WeightInputProps) {
   const [draft, setDraft] = useState(String(value));
 
   useEffect(() => setDraft(String(value)), [value]);
@@ -22,7 +28,10 @@ function WeightInput({ value, onCommit }: { value: number; onCommit(v: number): 
     <input
       inputMode="decimal"
       value={draft}
-      onChange={(e) => setDraft(e.target.value)}
+      onChange={(e) => {
+        setDraft(e.target.value);
+        onDraftChange(e.target.value);
+      }}
       onBlur={() => {
         const parsed = parseFloat(draft);
         if (!Number.isNaN(parsed)) onCommit(parsed);
@@ -42,6 +51,11 @@ export default function SetLogger({ exercise, data, update, onSetLogged }: Props
 
   const [extraSets, setExtraSets] = useState(0);
   const [rows, setRows] = useState<RowState[]>(() => suggestion.prefill.map((p) => ({ ...p })));
+  // Holds each row's in-progress (not-yet-blurred) weight text, kept in sync on every
+  // keystroke via a ref rather than state so it is readable synchronously — a sibling
+  // button's click fires in the same batch as the input's blur, before React has
+  // re-rendered with the blur's committed value, so state reads there would be stale.
+  const weightDraftRef = useRef<Record<number, string>>({});
 
   const totalRows = Math.max(exercise.sets + extraSets, loggedToday.length);
   const showWeight = exercise.loadType !== 'bodyweight';
@@ -62,11 +76,27 @@ export default function SetLogger({ exercise, data, update, onSetLogged }: Props
       return next;
     });
 
+  // Freshest weight for row i: prefers the in-progress typed draft (if any and
+  // parseable) over the last-committed row state, so an un-blurred edit isn't lost.
+  const resolveWeight = (i: number, fallback: number): number => {
+    const raw = weightDraftRef.current[i];
+    if (raw === undefined) return fallback;
+    const parsed = parseFloat(raw);
+    return Number.isNaN(parsed) ? fallback : parsed;
+  };
+
+  const commitWeight = (i: number, weightKg: number) => {
+    delete weightDraftRef.current[i];
+    setRow(i, { weightKg });
+  };
+
   const logSet = (i: number) => {
     const s = rowState(i);
+    const weightKg = resolveWeight(i, s.weightKg);
+    delete weightDraftRef.current[i];
     update((d) => ({
       ...d,
-      setLogs: [...d.setLogs, { date: today, exerciseId: exercise.id, setIndex: i, weightKg: s.weightKg, reps: s.reps }],
+      setLogs: [...d.setLogs, { date: today, exerciseId: exercise.id, setIndex: i, weightKg, reps: s.reps }],
     }));
     onSetLogged(exercise.restSec);
   };
@@ -91,9 +121,13 @@ export default function SetLogger({ exercise, data, update, onSetLogged }: Props
             <span className="set-label">Set {i + 1}</span>
             {showWeight && (
               <span className="stepper">
-                <button onClick={() => setRow(i, { weightKg: Math.max(0, s.weightKg - 0.5) })}>−</button>
-                <WeightInput value={s.weightKg} onCommit={(v) => setRow(i, { weightKg: v })} />
-                <button onClick={() => setRow(i, { weightKg: s.weightKg + 0.5 })}>+</button>
+                <button onClick={() => commitWeight(i, Math.max(0, resolveWeight(i, s.weightKg) - 0.5))}>−</button>
+                <WeightInput
+                  value={s.weightKg}
+                  onCommit={(v) => commitWeight(i, v)}
+                  onDraftChange={(v) => { weightDraftRef.current[i] = v; }}
+                />
+                <button onClick={() => commitWeight(i, resolveWeight(i, s.weightKg) + 0.5)}>+</button>
                 <span className="unit">kg</span>
               </span>
             )}

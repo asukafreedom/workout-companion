@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EXERCISES } from '../data/plan';
 import type { UserData } from '../data/types';
 import { sessionHistory } from '../logic/sessions';
@@ -12,15 +12,26 @@ export default function ProgressScreen({ data, update }: Props) {
   const lastBw = data.bodyWeights[data.bodyWeights.length - 1]?.kg ?? 80;
   const [bw, setBw] = useState(lastBw);
   const [bwDraft, setBwDraft] = useState(String(lastBw));
-  useEffect(() => setBwDraft(String(bw)), [bw]);
+  // Mirrors bwDraft synchronously (kept current on every keystroke, unlike state,
+  // which can lag one batch behind) so logBw can read the freshest typed value even
+  // when "Log today" is clicked right after typing, before the input's blur-commit
+  // has been applied — blur and click land in the same batch in that case.
+  const bwDraftRef = useRef(bwDraft);
+  useEffect(() => {
+    setBwDraft(String(bw));
+    bwDraftRef.current = String(bw);
+  }, [bw]);
   const avg = rollingAverage(data.bodyWeights);
   const flat = plateauFlag(data.bodyWeights);
 
-  const logBw = () =>
+  const logBw = () => {
+    const parsed = parseFloat(bwDraftRef.current);
+    const kg = Number.isNaN(parsed) ? bw : parsed;
     update((d) => ({
       ...d,
-      bodyWeights: [...d.bodyWeights.filter((b) => b.date !== todayStr()), { date: todayStr(), kg: bw }],
+      bodyWeights: [...d.bodyWeights.filter((b) => b.date !== todayStr()), { date: todayStr(), kg }],
     }));
+  };
 
   const trained = EXERCISES.filter((e) => sessionHistory(data.setLogs, e.id).length > 0);
 
@@ -34,7 +45,10 @@ export default function ProgressScreen({ data, update }: Props) {
             <input
               inputMode="decimal"
               value={bwDraft}
-              onChange={(e) => setBwDraft(e.target.value)}
+              onChange={(e) => {
+                setBwDraft(e.target.value);
+                bwDraftRef.current = e.target.value;
+              }}
               onBlur={() => {
                 const parsed = parseFloat(bwDraft);
                 if (!Number.isNaN(parsed)) setBw(parsed);
