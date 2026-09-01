@@ -1,11 +1,9 @@
 import { useCallback, useState } from 'react';
 import type { UserData } from './data/types';
 import { loadData, saveData } from './storage/store';
-import { exerciseById } from './data/plan';
 import TodayScreen from './components/TodayScreen';
-import SetLogger from './components/SetLogger';
+import ExerciseDetail from './components/ExerciseDetail';
 import RestTimer from './components/RestTimer';
-import Viewer from './three/Viewer';
 
 export type Tab = 'today' | 'progress' | 'plan';
 
@@ -38,23 +36,14 @@ export default function App() {
         {tab === 'progress' && <div className="screen">Progress — Task 13</div>}
         {tab === 'plan' && <div className="screen">Plan — Task 14</div>}
       </main>
-      {/* ExerciseDetail overlay mounts here in Task 12; RestTimer banner in Task 9 */}
-      {/* TEMP Task 10 harness — removed in Task 12 */}
-      {tab === 'today' && (
-        <div style={{ padding: '0 16px' }}>
-          <Viewer exercise={exerciseById('db-press')} />
-        </div>
-      )}
-      {/* TEMP Task 9 harness — removed in Task 12 */}
-      {openExerciseId === null && tab === 'today' && (
-        <div style={{ padding: 16 }}>
-          <SetLogger
-            exercise={exerciseById('db-press')}
-            data={data}
-            update={update}
-            onSetLogged={(restSec) => setTimer({ endsAt: Date.now() + restSec * 1000, total: restSec })}
-          />
-        </div>
+      {openExerciseId && (
+        <ExerciseDetail
+          exerciseId={openExerciseId}
+          data={data}
+          update={update}
+          onClose={() => setOpenExerciseId(null)}
+          onSetLogged={(restSec) => setTimer({ endsAt: Date.now() + restSec * 1000, total: restSec })}
+        />
       )}
       {timer && (
         <RestTimer
