@@ -5,6 +5,7 @@ import { exerciseById } from './data/plan';
 import TodayScreen from './components/TodayScreen';
 import SetLogger from './components/SetLogger';
 import RestTimer from './components/RestTimer';
+import Viewer from './three/Viewer';
 
 export type Tab = 'today' | 'progress' | 'plan';
 
@@ -38,6 +39,12 @@ export default function App() {
         {tab === 'plan' && <div className="screen">Plan — Task 14</div>}
       </main>
       {/* ExerciseDetail overlay mounts here in Task 12; RestTimer banner in Task 9 */}
+      {/* TEMP Task 10 harness — removed in Task 12 */}
+      {tab === 'today' && (
+        <div style={{ padding: '0 16px' }}>
+          <Viewer exercise={exerciseById('db-press')} />
+        </div>
+      )}
       {/* TEMP Task 9 harness — removed in Task 12 */}
       {openExerciseId === null && tab === 'today' && (
         <div style={{ padding: 16 }}>
