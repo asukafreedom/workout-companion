@@ -45,4 +45,11 @@ describe('plateauFlag', () => {
   it('false when trending down', () => {
     expect(plateauFlag(series(24, (i) => 84 - i * 0.15))).toBe(false);
   });
+  it('window boundary: day 21 back affects plateau flag', () => {
+    // 24 entries: entry at i=2 is 21 days back with weight 84, all others 80
+    // Days 0-6 back (recent): all 80, mean=80
+    // Days 14-20 back (old, incorrect): entries i=3..9, all 80, mean=80 => diff=0, flag=true
+    // Days 15-21 back (old, correct): entries i=2..8, include i=2 at 84, mean=80.57 => diff=0.57, flag=false
+    expect(plateauFlag(series(24, (i) => i === 2 ? 84 : 80))).toBe(false);
+  });
 });

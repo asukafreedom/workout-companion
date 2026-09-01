@@ -30,7 +30,7 @@ export function plateauFlag(entries: BodyWeight[]): boolean {
     return win.length ? win.reduce((s, x) => s + x.kg, 0) / win.length : NaN;
   };
   const recent = mean(latest - 6 * DAY, latest);
-  const old = mean(latest - 20 * DAY, latest - 14 * DAY);
+  const old = mean(latest - 21 * DAY, latest - 15 * DAY);
   if (Number.isNaN(recent) || Number.isNaN(old)) return false;
   return Math.abs(recent - old) < 0.25;
 }
