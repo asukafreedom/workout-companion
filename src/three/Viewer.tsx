@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import type { Exercise } from '../data/types';
 import Figure from './Figure';
+import MotionHints from './MotionHint';
 
 export default function Viewer({ exercise }: { exercise: Exercise }) {
   const [touched, setTouched] = useState(false);
@@ -14,7 +15,7 @@ export default function Viewer({ exercise }: { exercise: Exercise }) {
         <directionalLight position={[-3, 2, -4]} intensity={0.4} />
         <Suspense fallback={null}>
           <Figure primary={exercise.primary} secondary={exercise.secondary} pose={exercise.pose} />
-          {/* MotionHint meshes mount here in Task 11 */}
+          <MotionHints hints={exercise.hints} />
         </Suspense>
         <OrbitControls
           target={[0, 1.0, 0]}
