@@ -55,3 +55,20 @@ button:active { filter: brightness(1.2); }
 .variant-toggle { align-self: center; margin-right: 10px; font-size: 12px; color: var(--text-dim); padding: 8px 10px; }
 .rest-card h2 { margin-bottom: 8px; }
 .rest-card p { color: var(--text-dim); line-height: 1.5; }
+
+.set-logger { display: flex; flex-direction: column; gap: 8px; }
+.nudge { background: rgba(70, 192, 122, 0.12); border: 1px solid var(--good); color: var(--good); border-radius: var(--radius); padding: 10px 12px; font-size: 14px; }
+.load-label { color: var(--text-dim); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+.set-row { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 10px; }
+.set-row.done { color: var(--good); justify-content: space-between; }
+.set-label { width: 46px; color: var(--text-dim); font-size: 13px; }
+.stepper { display: flex; align-items: center; gap: 2px; }
+.stepper input { width: 52px; text-align: center; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); min-height: 40px; font-size: 15px; }
+.stepper button { min-width: 40px; min-height: 40px; }
+.unit { color: var(--text-dim); font-size: 12px; margin-left: 2px; }
+.tick { margin-left: auto; background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+.add-set { align-self: flex-start; font-size: 13px; color: var(--text-dim); }
+.rest-timer { position: relative; overflow: hidden; display: flex; align-items: center; gap: 8px; background: var(--surface-2); border-top: 1px solid var(--border); padding: 10px 16px; }
+.rest-bar { position: absolute; left: 0; top: 0; bottom: 0; background: rgba(79, 142, 247, 0.18); transition: width 0.25s linear; }
+.rest-time { font-variant-numeric: tabular-nums; font-weight: 600; z-index: 1; flex: 1; }
+.rest-timer button { z-index: 1; min-height: 36px; padding: 0 12px; }
