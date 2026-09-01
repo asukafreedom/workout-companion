@@ -42,8 +42,8 @@ button:active { filter: brightness(1.2); }
 .tab { flex: 1; border: none; border-radius: 0; background: none; color: var(--text-dim); padding: 12px 0; }
 .tab.active { color: var(--accent); font-weight: 600; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
-.day-switcher { display: flex; gap: 4px; margin-bottom: 16px; }
-.day { flex: 1; min-width: 0; padding: 8px 0; font-size: 13px; color: var(--text-dim); }
+.day-switcher { display: flex; gap: 4px; margin-bottom: 16px; overflow-x: auto; scrollbar-width: none; }
+.day { flex: 1 0 44px; min-width: 44px; padding: 8px 0; font-size: 13px; color: var(--text-dim); }
 .day.active { color: var(--text); border-color: var(--accent); }
 .workout-title { font-size: 22px; margin-bottom: 4px; }
 .note { color: var(--text-dim); font-size: 13px; margin: 8px 0; }
