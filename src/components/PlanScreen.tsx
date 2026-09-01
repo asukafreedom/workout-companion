@@ -11,13 +11,29 @@ interface Props { data: UserData; update(fn: (d: UserData) => UserData): void }
 export default function PlanScreen({ data, update }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const doExport = () => {
-    const blob = new Blob([exportJson(data)], { type: 'application/json' });
+  const doExport = async () => {
+    const name = `workout-backup-${todayStr()}.json`;
+    const json = exportJson(data);
+    const file = new File([json], name, { type: 'application/json' });
+
+    if (navigator.canShare?.({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file] });
+        update((d) => ({ ...d, settings: { ...d.settings, lastBackup: todayStr() } }));
+      } catch (err) {
+        if ((err as { name?: string })?.name === 'AbortError') return;
+        // user cancelled or share failed silently otherwise — no stamp, no alert
+      }
+      return;
+    }
+
+    const blob = new Blob([json], { type: 'application/json' });
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `workout-backup-${todayStr()}.json`;
+    const url = URL.createObjectURL(blob);
+    a.href = url;
+    a.download = name;
     a.click();
-    URL.revokeObjectURL(a.href);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
     update((d) => ({ ...d, settings: { ...d.settings, lastBackup: todayStr() } }));
   };
 

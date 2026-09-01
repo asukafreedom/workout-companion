@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Exercise, UserData } from '../data/types';
 import { lastSession } from '../logic/sessions';
 import { suggestNext } from '../logic/progression';
@@ -12,6 +12,25 @@ interface Props {
 }
 
 interface RowState { weightKg: number; reps: number }
+
+function WeightInput({ value, onCommit }: { value: number; onCommit(v: number): void }) {
+  const [draft, setDraft] = useState(String(value));
+
+  useEffect(() => setDraft(String(value)), [value]);
+
+  return (
+    <input
+      inputMode="decimal"
+      value={draft}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={() => {
+        const parsed = parseFloat(draft);
+        if (!Number.isNaN(parsed)) onCommit(parsed);
+        else setDraft(String(value));
+      }}
+    />
+  );
+}
 
 export default function SetLogger({ exercise, data, update, onSetLogged }: Props) {
   const today = todayStr();
@@ -73,11 +92,7 @@ export default function SetLogger({ exercise, data, update, onSetLogged }: Props
             {showWeight && (
               <span className="stepper">
                 <button onClick={() => setRow(i, { weightKg: Math.max(0, s.weightKg - 0.5) })}>−</button>
-                <input
-                  inputMode="decimal"
-                  value={s.weightKg}
-                  onChange={(e) => setRow(i, { weightKg: Number(e.target.value) || 0 })}
-                />
+                <WeightInput value={s.weightKg} onCommit={(v) => setRow(i, { weightKg: v })} />
                 <button onClick={() => setRow(i, { weightKg: s.weightKg + 0.5 })}>+</button>
                 <span className="unit">kg</span>
               </span>

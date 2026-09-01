@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { WEEK, WORKOUTS, exerciseById, slotVariants } from '../data/plan';
+import { WEEK, WORKOUTS, slotVariants } from '../data/plan';
 import type { UserData, Workout } from '../data/types';
 import { completedSets, lastSession } from '../logic/sessions';
 import { todayStr } from '../logic/dates';
@@ -12,7 +12,7 @@ interface Props {
   onChooseVariant(slot: string, exerciseId: string): void;
 }
 
-export function chosenExercise(data: UserData, slot: string) {
+function chosenExercise(data: UserData, slot: string) {
   const variants = slotVariants(slot);
   const chosenId = data.settings.variantChoice?.[slot];
   return variants.find((v) => v.id === chosenId) ?? variants[0];

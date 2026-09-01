@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EXERCISES } from '../data/plan';
 import type { UserData } from '../data/types';
 import { sessionHistory } from '../logic/sessions';
@@ -11,6 +11,8 @@ interface Props { data: UserData; update(fn: (d: UserData) => UserData): void }
 export default function ProgressScreen({ data, update }: Props) {
   const lastBw = data.bodyWeights[data.bodyWeights.length - 1]?.kg ?? 80;
   const [bw, setBw] = useState(lastBw);
+  const [bwDraft, setBwDraft] = useState(String(lastBw));
+  useEffect(() => setBwDraft(String(bw)), [bw]);
   const avg = rollingAverage(data.bodyWeights);
   const flat = plateauFlag(data.bodyWeights);
 
@@ -29,7 +31,16 @@ export default function ProgressScreen({ data, update }: Props) {
         <div className="bw-entry">
           <span className="stepper">
             <button onClick={() => setBw((v) => Math.round((v - 0.1) * 10) / 10)}>−</button>
-            <input inputMode="decimal" value={bw} onChange={(e) => setBw(Number(e.target.value) || 0)} />
+            <input
+              inputMode="decimal"
+              value={bwDraft}
+              onChange={(e) => setBwDraft(e.target.value)}
+              onBlur={() => {
+                const parsed = parseFloat(bwDraft);
+                if (!Number.isNaN(parsed)) setBw(parsed);
+                else setBwDraft(String(bw));
+              }}
+            />
             <button onClick={() => setBw((v) => Math.round((v + 0.1) * 10) / 10)}>+</button>
             <span className="unit">kg</span>
           </span>

@@ -23,10 +23,14 @@ export function loadData(): UserData {
   } catch {
     // fall through to recovery
   }
-  localStorage.setItem(STORAGE_KEY + '_recovery', raw);
+  localStorage.setItem(STORAGE_KEY + '_recovery_' + Date.now(), raw);
   return emptyData();
 }
 
 export function saveData(d: UserData): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+  } catch (err) {
+    console.error('Failed to save workout data', err);
+  }
 }

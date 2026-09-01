@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { UserData } from './data/types';
 import { loadData, saveData } from './storage/store';
 import TodayScreen from './components/TodayScreen';
@@ -15,13 +15,19 @@ export default function App() {
   const [openExerciseId, setOpenExerciseId] = useState<string | null>(null);
   const [timer, setTimer] = useState<{ endsAt: number; total: number } | null>(null);
 
+  const isFirstRender = useRef(true);
+
   const update = useCallback((fn: (d: UserData) => UserData) => {
-    setData((prev) => {
-      const next = fn(prev);
-      saveData(next);
-      return next;
-    });
+    setData((prev) => fn(prev));
   }, []);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    saveData(data);
+  }, [data]);
 
   const chooseVariant = (slot: string, exerciseId: string) =>
     update((d) => ({
@@ -53,7 +59,7 @@ export default function App() {
           total={timer.total}
           soundOn={data.settings.restTimerSound}
           onDone={() => setTimer(null)}
-          onExtend={(s) => setTimer((t) => (t ? { ...t, endsAt: t.endsAt + s * 1000 } : t))}
+          onExtend={(s) => setTimer((t) => (t ? { ...t, endsAt: t.endsAt + s * 1000, total: t.total + s } : t))}
         />
       )}
       <nav className="tabbar">
