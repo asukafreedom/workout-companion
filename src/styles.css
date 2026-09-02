@@ -104,3 +104,10 @@ button:active { filter: brightness(1.2); }
 .backup-buttons { display: flex; gap: 10px; margin: 10px 0; }
 .sound-toggle { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-dim); margin-top: 6px; }
 .sound-toggle input { width: 18px; height: 18px; }
+.viewer-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 14px; pointer-events: none; }
+.detail-actions { display: flex; gap: 8px; }
+.detail-actions .cues-toggle { flex: 1; }
+.video-link { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); text-decoration: none; font-size: 14px; }
+.viewer.viewer-loading { position: relative; inset: auto; }
+.attribution { margin-top: 16px; }
+.attribution a { color: var(--text-dim); }

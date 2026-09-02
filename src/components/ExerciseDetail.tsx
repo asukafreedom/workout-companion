@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { exerciseById } from '../data/plan';
 import type { UserData } from '../data/types';
-import Viewer from '../three/Viewer';
 import SetLogger from './SetLogger';
+
+// The 3D stack (three.js + anatomy model) loads on demand, keeping the
+// initial bundle small; the service worker caches the chunk for offline use.
+const Viewer = lazy(() => import('../three/Viewer'));
 
 interface Props {
   exerciseId: string;
@@ -29,10 +32,22 @@ export default function ExerciseDetail({ exerciseId, data, update, onClose, onSe
       </header>
 
       <div className="detail-body">
-        <Viewer exercise={ex} />
-        <button className="cues-toggle" onClick={() => setShowCues((s) => !s)}>
-          {showCues ? 'Hide form cues ▾' : 'Form cues ▸'}
-        </button>
+        <Suspense fallback={<div className="viewer viewer-loading">Loading 3D anatomy…</div>}>
+          <Viewer exercise={ex} />
+        </Suspense>
+        <div className="detail-actions">
+          <button className="cues-toggle" onClick={() => setShowCues((s) => !s)}>
+            {showCues ? 'Hide form cues ▾' : 'Form cues ▸'}
+          </button>
+          <a
+            className="video-link"
+            href={`https://www.youtube.com/results?search_query=${encodeURIComponent(`${ex.name} proper form`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ▶ Form video
+          </a>
+        </div>
         {showCues && (
           <div className="card cues-card">
             <ul>{ex.cues.map((c) => <li key={c}>{c}</li>)}</ul>

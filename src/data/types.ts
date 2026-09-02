@@ -1,7 +1,5 @@
 export type LoadType = 'dumbbell' | 'machine' | 'total' | 'bodyweight' | 'assisted';
 
-export type PoseId =
-  | 'standing' | 'seated' | 'incline' | 'hinged' | 'lying' | 'split' | 'hanging';
 
 export const MUSCLE_IDS = [
   'deltFront', 'deltSide', 'deltRear', 'pecs', 'lats', 'traps', 'midBack',
@@ -28,7 +26,6 @@ export interface Exercise {
   restSec: number;
   primary: MuscleId[];
   secondary: MuscleId[];
-  pose: PoseId;
   hints: MotionHint[];
   cues: string[];
   feel: string;

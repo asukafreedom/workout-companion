@@ -115,6 +115,14 @@ export default function PlanScreen({ data, update }: Props) {
           Rest-timer sound
         </label>
       </div>
+
+      <p className="note attribution">
+        3D anatomy model derived from{' '}
+        <a href="https://lifesciencedb.jp/bp3d/" target="_blank" rel="noopener noreferrer">BodyParts3D</a>
+        {' '}© DBCLS (CC-BY-SA 2.1 JP) and{' '}
+        <a href="https://www.z-anatomy.com/" target="_blank" rel="noopener noreferrer">Z-Anatomy</a>
+        {' '}(CC-BY-SA 4.0), via BodyExplorer.
+      </p>
     </div>
   );
 }
