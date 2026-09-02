@@ -5,6 +5,7 @@ import { sessionHistory } from '../logic/sessions';
 import { plateauFlag, rollingAverage } from '../logic/bodyweight';
 import { todayStr } from '../logic/dates';
 import LineChart from './LineChart';
+import Icon from './Icon';
 
 interface Props { data: UserData; update(fn: (d: UserData) => UserData): void }
 
@@ -67,6 +68,7 @@ export default function ProgressScreen({ data, update }: Props) {
         <p className="note">Faint dots: daily weigh-ins · line: 7-day average (watch this one).</p>
         {flat && (
           <div className="nudge warn">
+            <Icon name="alert" />
             Average flat for 3 weeks — consider reducing food slightly or adding activity.
           </div>
         )}

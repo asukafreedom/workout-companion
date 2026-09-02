@@ -3,6 +3,7 @@ import { WEEK, WORKOUTS, slotVariants } from '../data/plan';
 import type { UserData, Workout } from '../data/types';
 import { completedSets, lastSession } from '../logic/sessions';
 import { todayStr } from '../logic/dates';
+import Icon from './Icon';
 
 const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -27,7 +28,12 @@ export default function TodayScreen({ data, onOpen, onChooseVariant }: Props) {
     <div className="screen">
       <div className="day-switcher">
         {DAY_NAMES.map((n, i) => (
-          <button key={n} className={i === dayIdx ? 'day active' : 'day'} onClick={() => setDayIdx(i)}>
+          <button
+            key={n}
+            className={i === dayIdx ? 'day active' : 'day'}
+            aria-pressed={i === dayIdx}
+            onClick={() => setDayIdx(i)}
+          >
             {n}
           </button>
         ))}
@@ -57,7 +63,7 @@ export default function TodayScreen({ data, onOpen, onChooseVariant }: Props) {
                     <button className="row-main" onClick={() => onOpen(ex.id)}>
                       <span className="row-name">
                         {ex.name}
-                        {done >= ex.sets ? ' ✓' : done > 0 ? ` ${done}/${ex.sets}` : ''}
+                        {done >= ex.sets ? <span className="row-done"><Icon name="check" /></span> : done > 0 ? ` ${done}/${ex.sets}` : ''}
                       </span>
                       <span className="row-sub">
                         {ex.sets}×{ex.repMin}–{ex.repMax}
@@ -68,12 +74,13 @@ export default function TodayScreen({ data, onOpen, onChooseVariant }: Props) {
                     {variants.length > 1 && (
                       <button
                         className="variant-toggle"
+                        aria-label={`Switch to ${variants.find((v) => v.id !== ex.id)!.name}`}
                         onClick={() => {
                           const other = variants.find((v) => v.id !== ex.id)!;
                           onChooseVariant(slot, other.id);
                         }}
                       >
-                        ⇄ {variants.find((v) => v.id !== ex.id)!.name}
+                        <Icon name="swap" /> {variants.find((v) => v.id !== ex.id)!.name}
                       </button>
                     )}
                   </li>

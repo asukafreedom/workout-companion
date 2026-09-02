@@ -3,6 +3,7 @@ import { WEEK, WORKOUTS } from '../data/plan';
 import type { UserData } from '../data/types';
 import { exportJson, mergeImport } from '../storage/exportImport';
 import { todayStr } from '../logic/dates';
+import Icon from './Icon';
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -95,7 +96,10 @@ export default function PlanScreen({ data, update }: Props) {
       <h2 className="section-title">Backup</h2>
       <div className="card">
         {daysSinceBackup !== null && daysSinceBackup > 30 && (
-          <div className="nudge warn">Last backup: {daysSinceBackup} days ago.</div>
+          <div className="nudge danger">
+            <Icon name="alert" />
+            <span>Last backup: {daysSinceBackup} days ago. Export now — your log lives only on this device.</span>
+          </div>
         )}
         {daysSinceBackup === null && <p className="note">No backup yet — export once in a while.</p>}
         <div className="backup-buttons">

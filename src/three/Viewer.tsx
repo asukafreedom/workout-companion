@@ -5,6 +5,7 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import type { Exercise } from '../data/types';
 import AnatomyModel, { type Focus } from './AnatomyModel';
 import MotionHints from './MotionHint';
+import { MUSCLE_LABELS } from './muscleMap';
 
 /** Muscle groups best viewed from behind the figure. */
 const POSTERIOR = new Set(['deltRear', 'lats', 'traps', 'midBack', 'erectors', 'glutes', 'hamstrings', 'calves']);
@@ -55,8 +56,18 @@ export default function Viewer({ exercise }: { exercise: Exercise }) {
     setReady(true);
   }, []);
 
+  const describe = [
+    `Primary muscles: ${exercise.primary.map((m) => MUSCLE_LABELS[m]).join(', ')}`,
+    exercise.secondary.length ? `secondary: ${exercise.secondary.map((m) => MUSCLE_LABELS[m]).join(', ')}` : '',
+  ].filter(Boolean).join('; ');
+
   return (
-    <div className="viewer" onPointerDown={() => setTouched(true)}>
+    <div
+      className="viewer"
+      role="img"
+      aria-label={`Rotatable 3D anatomy for ${exercise.name}. ${describe}.`}
+      onPointerDown={() => setTouched(true)}
+    >
       <Canvas camera={{ position: [0, 1.3, 2.6], fov: 40 }} dpr={[1, 2]}>
         <ambientLight intensity={0.7} />
         <directionalLight position={[3, 4, 5]} intensity={1.2} />

@@ -64,7 +64,12 @@ export default function App() {
       )}
       <nav className="tabbar">
         {(['today', 'progress', 'plan'] as Tab[]).map((t) => (
-          <button key={t} className={tab === t ? 'tab active' : 'tab'} onClick={() => setTab(t)}>
+          <button
+            key={t}
+            className={tab === t ? 'tab active' : 'tab'}
+            aria-current={tab === t ? 'page' : undefined}
+            onClick={() => setTab(t)}
+          >
             {t === 'today' ? 'Today' : t === 'progress' ? 'Progress' : 'Plan'}
           </button>
         ))}

@@ -62,6 +62,7 @@ export interface UserData {
   bodyWeights: BodyWeight[];
   settings: {
     restTimerSound: boolean;
+    viewerCollapsed?: boolean;
     lastBackup?: string;
     /** slot id -> chosen exercise id */
     variantChoice?: Record<string, string>;

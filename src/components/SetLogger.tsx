@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Exercise, UserData } from '../data/types';
+import type { Exercise, SetLog, UserData } from '../data/types';
 import { lastSession } from '../logic/sessions';
 import { suggestNext } from '../logic/progression';
 import { todayStr } from '../logic/dates';
+import Icon from './Icon';
 
 interface Props {
   exercise: Exercise;
@@ -15,11 +16,12 @@ interface RowState { weightKg: number; reps: number }
 
 interface WeightInputProps {
   value: number;
+  label: string;
   onCommit(v: number): void;
   onDraftChange(v: string): void;
 }
 
-function WeightInput({ value, onCommit, onDraftChange }: WeightInputProps) {
+function WeightInput({ value, label, onCommit, onDraftChange }: WeightInputProps) {
   const [draft, setDraft] = useState(String(value));
 
   useEffect(() => setDraft(String(value)), [value]);
@@ -27,6 +29,7 @@ function WeightInput({ value, onCommit, onDraftChange }: WeightInputProps) {
   return (
     <input
       inputMode="decimal"
+      aria-label={label}
       value={draft}
       onChange={(e) => {
         setDraft(e.target.value);
@@ -101,18 +104,44 @@ export default function SetLogger({ exercise, data, update, onSetLogged }: Props
     onSetLogged(exercise.restSec);
   };
 
+  // A mis-logged set must be correctable: tapping a done row removes the log
+  // entry and reopens the row prefilled with the logged values.
+  const reopenSet = (i: number, done: SetLog) => {
+    update((d) => ({
+      ...d,
+      setLogs: d.setLogs.filter(
+        (l) => !(l.date === today && l.exerciseId === exercise.id && l.setIndex === i),
+      ),
+    }));
+    setRow(i, { weightKg: done.weightKg, reps: done.reps });
+  };
+
   return (
     <div className="set-logger">
-      {suggestion.nudge && <div className="nudge">{suggestion.nudge}</div>}
-      {loadLabel && <div className="load-label">{loadLabel}</div>}
+      {suggestion.nudge && (
+        <div className="nudge">
+          <Icon name="trend" />
+          <span>{suggestion.nudge}</span>
+        </div>
+      )}
+      <div className="load-label">
+        {showWeight ? `${loadLabel ? `${loadLabel} · ` : ''}kg × reps` : 'reps only'}
+      </div>
       {Array.from({ length: totalRows }, (_, i) => {
         const done = loggedToday.find((l) => l.setIndex === i);
         if (done) {
+          const summary = `${showWeight ? `${done.weightKg} kg × ` : ''}${done.reps} reps`;
           return (
-            <div key={i} className="set-row done">
-              <span>Set {i + 1}</span>
-              <span>{showWeight ? `${done.weightKg} kg × ` : ''}{done.reps} reps ✓</span>
-            </div>
+            <button
+              key={i}
+              className="set-row done"
+              onClick={() => reopenSet(i, done)}
+              aria-label={`Set ${i + 1} logged: ${summary}. Tap to edit.`}
+            >
+              <span className="done-check"><Icon name="check" /> Set {i + 1}</span>
+              <span className="done-summary">{summary}</span>
+              <span className="done-edit"><Icon name="edit" /></span>
+            </button>
           );
         }
         const s = rowState(i);
@@ -121,26 +150,47 @@ export default function SetLogger({ exercise, data, update, onSetLogged }: Props
             <span className="set-label">Set {i + 1}</span>
             {showWeight && (
               <span className="stepper">
-                <button onClick={() => commitWeight(i, Math.max(0, resolveWeight(i, s.weightKg) - 0.5))}>−</button>
+                <button
+                  aria-label={`Decrease weight, set ${i + 1}`}
+                  onClick={() => commitWeight(i, Math.max(0, resolveWeight(i, s.weightKg) - 0.5))}
+                ><Icon name="minus" /></button>
                 <WeightInput
                   value={s.weightKg}
+                  label={`Weight in kilograms, set ${i + 1}`}
                   onCommit={(v) => commitWeight(i, v)}
                   onDraftChange={(v) => { weightDraftRef.current[i] = v; }}
                 />
-                <button onClick={() => commitWeight(i, resolveWeight(i, s.weightKg) + 0.5)}>+</button>
-                <span className="unit">kg</span>
+                <button
+                  aria-label={`Increase weight, set ${i + 1}`}
+                  onClick={() => commitWeight(i, resolveWeight(i, s.weightKg) + 0.5)}
+                ><Icon name="plus" /></button>
               </span>
             )}
             <span className="stepper">
-              <button onClick={() => setRow(i, { reps: Math.max(0, s.reps - 1) })}>−</button>
-              <input inputMode="numeric" value={s.reps} onChange={(e) => setRow(i, { reps: Number(e.target.value) || 0 })} />
-              <button onClick={() => setRow(i, { reps: s.reps + 1 })}>+</button>
+              <button
+                aria-label={`Decrease reps, set ${i + 1}`}
+                onClick={() => setRow(i, { reps: Math.max(0, s.reps - 1) })}
+              ><Icon name="minus" /></button>
+              <input
+                inputMode="numeric"
+                aria-label={`Reps, set ${i + 1}`}
+                value={s.reps}
+                onChange={(e) => setRow(i, { reps: Number(e.target.value) || 0 })}
+              />
+              <button
+                aria-label={`Increase reps, set ${i + 1}`}
+                onClick={() => setRow(i, { reps: s.reps + 1 })}
+              ><Icon name="plus" /></button>
             </span>
-            <button className="tick" onClick={() => logSet(i)}>✓</button>
+            <button className="tick" aria-label={`Log set ${i + 1}`} onClick={() => logSet(i)}>
+              <Icon name="check" />
+            </button>
           </div>
         );
       })}
-      <button className="add-set" onClick={() => setExtraSets((n) => n + 1)}>+ set</button>
+      <button className="add-set" onClick={() => setExtraSets((n) => n + 1)}>
+        <Icon name="plus" /> set
+      </button>
     </div>
   );
 }

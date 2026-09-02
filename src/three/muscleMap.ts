@@ -27,6 +27,28 @@ export const MUSCLE_PATTERNS: Record<MuscleId, RegExp> = {
   adductors: /adductor (longus|brevis|magnus|minimus)|gracilis|pectineus/i,
 };
 
+/** Display names for muscle groups, used in summaries and accessible labels. */
+export const MUSCLE_LABELS: Record<MuscleId, string> = {
+  deltFront: 'Front delts',
+  deltSide: 'Side delts',
+  deltRear: 'Rear delts',
+  pecs: 'Chest',
+  lats: 'Lats',
+  traps: 'Traps',
+  midBack: 'Mid-back',
+  erectors: 'Lower back',
+  biceps: 'Biceps',
+  triceps: 'Triceps',
+  forearms: 'Forearms',
+  abs: 'Abs',
+  obliques: 'Obliques',
+  glutes: 'Glutes',
+  quads: 'Quads',
+  hamstrings: 'Hamstrings',
+  calves: 'Calves',
+  adductors: 'Inner thighs',
+};
+
 const ENTRIES = Object.entries(MUSCLE_PATTERNS) as [MuscleId, RegExp][];
 
 export function groupsForMeshName(name: string): MuscleId[] {
