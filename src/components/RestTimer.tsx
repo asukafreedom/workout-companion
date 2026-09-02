@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { beep } from '../logic/sound';
 
 interface Props {
   endsAt: number;
@@ -6,20 +7,6 @@ interface Props {
   soundOn: boolean;
   onDone(): void;
   onExtend(sec: number): void;
-}
-
-function beep() {
-  try {
-    const ctx = new AudioContext();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.frequency.value = 880;
-    gain.gain.value = 0.15;
-    osc.connect(gain).connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.35);
-    osc.onended = () => ctx.close();
-  } catch { /* audio blocked — fine */ }
 }
 
 export default function RestTimer({ endsAt, total, soundOn, onDone, onExtend }: Props) {

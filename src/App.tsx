@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { UserData } from './data/types';
 import { loadData, saveData } from './storage/store';
+import { unlockAudio } from './logic/sound';
 import TodayScreen from './components/TodayScreen';
 import ExerciseDetail from './components/ExerciseDetail';
 import RestTimer from './components/RestTimer';
@@ -50,7 +51,12 @@ export default function App() {
           data={data}
           update={update}
           onClose={() => setOpenExerciseId(null)}
-          onSetLogged={(restSec) => setTimer({ endsAt: Date.now() + restSec * 1000, total: restSec })}
+          onSetLogged={(restSec) => {
+            // Runs inside the tap's call stack: unlocks audio for iOS so the
+            // chime can play when the timer expires.
+            unlockAudio();
+            setTimer({ endsAt: Date.now() + restSec * 1000, total: restSec });
+          }}
         />
       )}
       {timer && (
