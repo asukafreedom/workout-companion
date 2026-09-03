@@ -116,7 +116,7 @@ export default function TodayScreen({ data, onOpen, onChooseVariant }: Props) {
                 {setsDone} of {setsTotal} sets{remaining.length > 0 ? ` · ~${eta} min left` : ''}
               </span>
             </div>
-            <div className="bar-track"><div className="bar-fill" style={{ width: `${(doneCount / Math.max(1, exercises.length)) * 100}%` }} /></div>
+            <div className="bar-track"><div className="bar-fill" style={{ transform: `scaleX(${doneCount / Math.max(1, exercises.length)})` }} /></div>
           </div>
 
           <ul className="exercise-list">
