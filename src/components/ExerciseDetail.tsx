@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import { exerciseById } from '../data/plan';
+import { WORKOUTS, exerciseById } from '../data/plan';
 import type { UserData } from '../data/types';
 import { MUSCLE_LABELS } from '../three/muscleMap';
 import SetLogger from './SetLogger';
@@ -14,7 +14,7 @@ interface Props {
   data: UserData;
   update(fn: (d: UserData) => UserData): void;
   onClose(): void;
-  onSetLogged(restSec: number): void;
+  onSetLogged(restSec: number, nextLabel: string | null): void;
 }
 
 export default function ExerciseDetail({ exerciseId, data, update, onClose, onSetLogged }: Props) {
@@ -22,8 +22,9 @@ export default function ExerciseDetail({ exerciseId, data, update, onClose, onSe
   const [showCues, setShowCues] = useState(false);
   const backRef = useRef<HTMLButtonElement>(null);
 
-  // The anatomy viewer is collapsible so the logger owns the screen on repeat
-  // visits; the choice persists.
+  const workout = WORKOUTS.find((w) => w.slots.includes(ex.slot));
+  const position = workout ? `Exercise ${workout.slots.indexOf(ex.slot) + 1} of ${workout.slots.length}` : '';
+
   const collapsed = data.settings.viewerCollapsed ?? false;
   const setCollapsed = (v: boolean) =>
     update((d) => ({ ...d, settings: { ...d.settings, viewerCollapsed: v } }));
@@ -35,52 +36,69 @@ export default function ExerciseDetail({ exerciseId, data, update, onClose, onSe
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
+  const loadLabel =
+    ex.loadType === 'dumbbell' ? ' · Per dumbbell' :
+    ex.loadType === 'machine' ? ' · Machine stack' :
+    ex.loadType === 'total' ? ' · Total weight' :
+    ex.loadType === 'assisted' ? ' · Assist weight' : '';
+
   const primaryNames = ex.primary.map((m) => MUSCLE_LABELS[m]).join(' · ');
   const secondaryNames = ex.secondary.map((m) => MUSCLE_LABELS[m]).join(', ');
 
+  const muscleOverlay = (
+    <div className="viewer-muscles">
+      <span className="viewer-primary">{primaryNames}</span>
+      {secondaryNames && <span className="viewer-secondary">with {secondaryNames}</span>}
+    </div>
+  );
+
   return (
     <div className="detail-overlay" role="dialog" aria-modal="true" aria-label={ex.name}>
-      <header className="detail-header">
-        <button ref={backRef} onClick={onClose}>‹ Back</button>
-        <div>
-          <h2>{ex.name}</h2>
-          <span className="row-sub">
-            {ex.sets}×{ex.repMin}–{ex.repMax}{ex.repNote ? ` ${ex.repNote}` : ''} · rest {ex.restSec}s
+      <div className="detail-body">
+        <div className="detail-nav">
+          <button ref={backRef} className="round-btn" aria-label="Back" onClick={onClose}>
+            <Icon name="back" />
+          </button>
+          <span className="eyebrow">{position}</span>
+          <span className="round-spacer" />
+        </div>
+
+        <div className="detail-title">
+          <h1>{ex.name}</h1>
+          <span className="eyebrow meta">
+            {ex.sets} × {ex.repMin}–{ex.repMax}{ex.repNote ? ` ${ex.repNote}` : ''} · Rest {ex.restSec} s{loadLabel}
           </span>
         </div>
-      </header>
 
-      <div className="detail-body">
-        <div className="muscle-bar">
-          <div className="muscle-summary">
-            <span className="muscle-primary">{primaryNames}</span>
-            {secondaryNames && <span className="muscle-secondary">with {secondaryNames}</span>}
+        {collapsed ? (
+          <div className="viewer-collapsed">
+            {muscleOverlay}
+            <button className="round-btn small" aria-expanded="false" aria-label="Show 3D anatomy"
+              onClick={() => setCollapsed(false)}>
+              <Icon name="chevronDown" />
+            </button>
           </div>
-          <button
-            className="viewer-toggle"
-            aria-expanded={!collapsed}
-            aria-label={collapsed ? 'Show 3D anatomy' : 'Hide 3D anatomy'}
-            onClick={() => setCollapsed(!collapsed)}
-          >
-            <Icon name={collapsed ? 'chevronDown' : 'chevronUp'} />
-          </button>
-        </div>
-        {!collapsed && (
-          <Suspense fallback={<div className="viewer viewer-loading">Loading 3D anatomy…</div>}>
-            <Viewer exercise={ex} />
-          </Suspense>
+        ) : (
+          <div className="viewer-wrap">
+            <Suspense fallback={<div className="viewer viewer-loading">Loading 3D anatomy…</div>}>
+              <Viewer exercise={ex} />
+            </Suspense>
+            {muscleOverlay}
+            <button className="round-btn small viewer-collapse" aria-expanded="true" aria-label="Hide 3D anatomy"
+              onClick={() => setCollapsed(true)}>
+              <Icon name="chevronUp" />
+            </button>
+          </div>
         )}
+
         <SetLogger key={ex.id} exercise={ex} data={data} update={update} onSetLogged={onSetLogged} />
+
         <div className="detail-actions">
-          <button
-            className="cues-toggle"
-            aria-expanded={showCues}
-            onClick={() => setShowCues((s) => !s)}
-          >
-            <Icon name={showCues ? 'chevronUp' : 'chevronDown'} /> Form cues
+          <button className="pill-btn" aria-expanded={showCues} onClick={() => setShowCues((s) => !s)}>
+            Form cues
           </button>
           <a
-            className="video-link"
+            className="pill-btn"
             href={`https://www.youtube.com/results?search_query=${encodeURIComponent(`${ex.name} proper form`)}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -89,7 +107,7 @@ export default function ExerciseDetail({ exerciseId, data, update, onClose, onSe
           </a>
         </div>
         {showCues && (
-          <div className="card cues-card">
+          <div className="cues-card">
             <ul>{ex.cues.map((c) => <li key={c}>{c}</li>)}</ul>
             <p className="note">You should feel it in: {ex.feel}</p>
           </div>

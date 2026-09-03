@@ -63,6 +63,7 @@ export interface UserData {
   settings: {
     restTimerSound: boolean;
     viewerCollapsed?: boolean;
+    goalKg?: number;
     lastBackup?: string;
     /** slot id -> chosen exercise id */
     variantChoice?: Record<string, string>;

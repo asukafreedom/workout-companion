@@ -5,11 +5,12 @@ interface Props {
   endsAt: number;
   total: number;
   soundOn: boolean;
+  next: string | null;
   onDone(): void;
   onExtend(sec: number): void;
 }
 
-export default function RestTimer({ endsAt, total, soundOn, onDone, onExtend }: Props) {
+export default function RestTimer({ endsAt, total, soundOn, next, onDone, onExtend }: Props) {
   const [remaining, setRemaining] = useState(endsAt - Date.now());
   const fired = useRef(false);
 
@@ -34,10 +35,14 @@ export default function RestTimer({ endsAt, total, soundOn, onDone, onExtend }: 
 
   return (
     <div className="rest-timer">
-      <div className="rest-bar" style={{ transform: `scaleX(${pct})` }} />
-      <span className="rest-time">Rest {Math.floor(secs / 60)}:{String(secs % 60).padStart(2, '0')}</span>
-      <button onClick={() => onExtend(30)}>+30s</button>
-      <button onClick={onDone}>Skip</button>
+      <div className="rest-line" style={{ transform: `scaleX(${pct})` }} />
+      <div className="rest-count">
+        <span className="eyebrow tiny">Rest</span>
+        <span className="rest-time">{Math.floor(secs / 60)}:{String(secs % 60).padStart(2, '0')}</span>
+      </div>
+      {next && <span className="rest-next">{next}</span>}
+      <button className="rest-pill outline" onClick={() => onExtend(30)}>+30 s</button>
+      <button className="rest-pill fill" onClick={onDone}>Skip</button>
     </div>
   );
 }

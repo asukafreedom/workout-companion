@@ -14,7 +14,7 @@ export default function App() {
   const [data, setData] = useState<UserData>(() => loadData());
   const [tab, setTab] = useState<Tab>('today');
   const [openExerciseId, setOpenExerciseId] = useState<string | null>(null);
-  const [timer, setTimer] = useState<{ endsAt: number; total: number } | null>(null);
+  const [timer, setTimer] = useState<{ endsAt: number; total: number; next: string | null } | null>(null);
 
   const isFirstRender = useRef(true);
 
@@ -51,11 +51,11 @@ export default function App() {
           data={data}
           update={update}
           onClose={() => setOpenExerciseId(null)}
-          onSetLogged={(restSec) => {
+          onSetLogged={(restSec, next) => {
             // Runs inside the tap's call stack: unlocks audio for iOS so the
             // chime can play when the timer expires.
             unlockAudio();
-            setTimer({ endsAt: Date.now() + restSec * 1000, total: restSec });
+            setTimer({ endsAt: Date.now() + restSec * 1000, total: restSec, next });
           }}
         />
       )}
@@ -63,6 +63,7 @@ export default function App() {
         <RestTimer
           endsAt={timer.endsAt}
           total={timer.total}
+          next={timer.next}
           soundOn={data.settings.restTimerSound}
           onDone={() => setTimer(null)}
           onExtend={(s) => setTimer((t) => (t ? { ...t, endsAt: t.endsAt + s * 1000, total: t.total + s } : t))}
@@ -76,7 +77,8 @@ export default function App() {
             aria-current={tab === t ? 'page' : undefined}
             onClick={() => setTab(t)}
           >
-            {t === 'today' ? 'Today' : t === 'progress' ? 'Progress' : 'Plan'}
+            <span>{t === 'today' ? 'Today' : t === 'progress' ? 'Progress' : 'Plan'}</span>
+            <span className="tab-bar" />
           </button>
         ))}
       </nav>

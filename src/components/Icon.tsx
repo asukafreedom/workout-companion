@@ -12,6 +12,7 @@ const PATHS = {
   edit: <path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17 4 20ZM13.5 6l3 3" />,
   trend: <path d="M3.5 17.5l5.5-5.5 3.5 3.5 7-7.5M14 7.5h5.5V13" />,
   alert: <path d="M12 4.5l8.5 15h-17L12 4.5ZM12 10.5v4M12 17.2v.3" />,
+  back: <path d="M15 5l-7 7 7 7" />,
 } as const;
 
 export type IconName = keyof typeof PATHS;

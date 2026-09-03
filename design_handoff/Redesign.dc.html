@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"><style>body{margin:0;background:#e9e7e2;font-family:Barlow,system-ui,sans-serif}a{color:#1a1a1a}a:hover{color:oklch(0.62 0.19 50)}</style></helmet>
+<div style="padding:40px 44px 60px;display:flex;flex-direction:column;gap:28px">
+  <div style="max-width:760px;display:flex;flex-direction:column;gap:10px">
+    <div style="font:600 10px ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,0,0,.5)">Redesign · Workout Companion</div>
+    <h1 style="margin:0;font:800 40px/1 'Barlow Condensed',system-ui,sans-serif;text-transform:uppercase;letter-spacing:-.01em;color:#14151a">Athletic, high-contrast, progress-first</h1>
+    <p style="margin:0;font:400 14px/1.55 Barlow,system-ui,sans-serif;color:rgba(0,0,0,.65);text-wrap:pretty"><b>Assumptions:</b> same three-tab structure, same data model and plan — only the presentation changes. <b>Type:</b> Barlow Condensed for titles and numbers (the data becomes the hero), Barlow for text. <b>Color:</b> one energetic accent (orange) for "the thing to do next", green only for done, charcoal neutrals. <b>Motivation:</b> a weekly consistency strip, a session progress bar, PR/“best” callouts and deltas on every chart — all computed from data the app already stores. Dark is the default; light shown for Today and the logger. Compare with the <a href="Current UI.dc.html">current UI</a>.</p>
+  </div>
+
+  <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap">
+
+    <!-- ============ TODAY (dark) ============ -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 11px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.55)">01 · Today</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#0c0d10;color:#f2f3f5;font-family:Barlow,system-ui,sans-serif;font-size:15px;position:relative">
+          <div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:62px 20px 120px;display:flex;flex-direction:column;gap:22px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Thursday · 3 Sep</span>
+                <span style="display:flex;align-items:center;gap:6px;font:700 12px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:oklch(0.74 0.19 50);background:oklch(0.74 0.19 50 / .12);padding:4px 10px;border-radius:999px">Week 36 · {{ sessionsDone }}/4</span>
+              </div>
+              <h1 style="margin:0;font:800 56px/.92 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:-.015em">Upper<br>Body B</h1>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#8b909c">M</span><span style="height:6px;width:100%;border-radius:3px;background:oklch(0.74 0.16 150)"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#8b909c">T</span><span style="height:6px;width:100%;border-radius:3px;background:oklch(0.74 0.16 150)"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#8b909c">W</span><span style="height:6px;width:100%;border-radius:3px;background:oklch(0.74 0.16 150 / .45)"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:700;color:#f2f3f5">T</span><span style="height:6px;width:100%;border-radius:3px;background:oklch(0.74 0.19 50)"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#8b909c">F</span><span style="height:6px;width:100%;border-radius:3px;background:#1c1f26"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#8b909c">S</span><span style="height:6px;width:100%;border-radius:3px;background:#1c1f26"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#8b909c">S</span><span style="height:6px;width:100%;border-radius:3px;background:#1c1f26"></span></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:#8b909c"><span>Session {{ sessionNumber }} of 4 this week</span><span style="color:oklch(0.74 0.16 150);font-weight:600">3-week streak</span></div>
+            </div>
+
+            <div style="background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:flex-end;justify-content:space-between">
+                <div style="display:flex;align-items:baseline;gap:6px"><span style="font:800 40px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">2<span style="color:#8b909c;font-weight:600">/8</span></span><span style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8b909c">exercises</span></div>
+                <span style="font-size:12px;color:#8b909c;font-variant-numeric:tabular-nums">5 of 24 sets · ~38 min left</span>
+              </div>
+              <div style="height:6px;border-radius:3px;background:#1c1f26;overflow:hidden"><div style="height:100%;width:25%;border-radius:3px;background:oklch(0.74 0.19 50)"></div></div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.07);opacity:.55"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#8b909c;width:26px;font-variant-numeric:tabular-nums">01</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px;text-decoration:line-through;text-decoration-color:#8b909c">Incline Dumbbell Press</span><span style="font-size:12px;color:#8b909c;font-variant-numeric:tabular-nums">3 × 10 · 25 kg</span></div><span style="width:28px;height:28px;border-radius:50%;background:oklch(0.74 0.16 150);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0c0d10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.07);opacity:.55"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#8b909c;width:26px;font-variant-numeric:tabular-nums">02</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px;text-decoration:line-through;text-decoration-color:#8b909c">Assisted Pull-Up</span><span style="font-size:12px;color:#8b909c;font-variant-numeric:tabular-nums">3 × 9 · 20 kg assist</span></div><span style="width:28px;height:28px;border-radius:50%;background:oklch(0.74 0.16 150);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0c0d10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 12px;margin:4px -8px;border-radius:14px;background:oklch(0.74 0.19 50 / .1);border:1px solid oklch(0.74 0.19 50 / .5)"><span style="font:700 18px 'Barlow Condensed',sans-serif;color:oklch(0.74 0.19 50);width:26px;font-variant-numeric:tabular-nums">03</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:700;font-size:16px">Chest-Supported Row</span><span style="font-size:12px;color:#8b909c;font-variant-numeric:tabular-nums">3 × 8–12 · last 45 kg</span></div><span style="font:700 22px 'Barlow Condensed',sans-serif;color:oklch(0.74 0.19 50);font-variant-numeric:tabular-nums">1<span style="color:#8b909c;font-weight:500">/3</span></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.07)"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#8b909c;width:26px;font-variant-numeric:tabular-nums">04</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Cable / Machine Chest Fly</span><span style="font-size:12px;color:#8b909c;font-variant-numeric:tabular-nums">3 × 10–15 · last 35 kg</span></div><span style="font:600 20px 'Barlow Condensed',sans-serif;color:#f2f3f5;font-variant-numeric:tabular-nums">35 <span style="font-size:12px;color:#8b909c">KG</span></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.07)"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#8b909c;width:26px;font-variant-numeric:tabular-nums">05</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Lateral Raise</span><span style="font-size:12px;color:#8b909c;font-variant-numeric:tabular-nums">3 × 12–20 · last 8 kg</span></div><span style="font:600 20px 'Barlow Condensed',sans-serif;color:#f2f3f5;font-variant-numeric:tabular-nums">8 <span style="font-size:12px;color:#8b909c">KG</span></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.07)"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#8b909c;width:26px;font-variant-numeric:tabular-nums">06</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Rear Delt Fly</span><span style="font-size:12px;color:#8b909c;font-variant-numeric:tabular-nums">3 × 12–20 · last 7 kg</span></div><span style="font:600 20px 'Barlow Condensed',sans-serif;color:#f2f3f5;font-variant-numeric:tabular-nums">7 <span style="font-size:12px;color:#8b909c">KG</span></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.07)"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#8b909c;width:26px;font-variant-numeric:tabular-nums">07</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Biceps Curl</span><span style="font-size:12px;color:#8b909c;font-variant-numeric:tabular-nums">3 × 10–15 · last 12 kg</span></div><span style="font:600 20px 'Barlow Condensed',sans-serif;color:#f2f3f5;font-variant-numeric:tabular-nums">12 <span style="font-size:12px;color:#8b909c">KG</span></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#8b909c;width:26px;font-variant-numeric:tabular-nums">08</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Overhead Triceps Extension</span><span style="font-size:12px;color:#8b909c;font-variant-numeric:tabular-nums">3 × 10–15 · last 15 kg</span></div><span style="font:600 20px 'Barlow Condensed',sans-serif;color:#f2f3f5;font-variant-numeric:tabular-nums">15 <span style="font-size:12px;color:#8b909c">KG</span></span></div>
+            </div>
+            <p style="margin:0;font-size:13px;line-height:1.5;color:#8b909c">Side and rear delts get extra volume on purpose — pressing already covers front delts.</p>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:linear-gradient(to bottom,rgba(12,13,16,0),#0c0d10 30%);padding:24px 20px 0">
+            <div style="display:flex;align-items:center;justify-content:space-between;background:oklch(0.74 0.19 50);color:#0c0d10;border-radius:14px;padding:0 18px;height:56px;box-shadow:0 8px 24px oklch(0.74 0.19 50 / .3)"><span style="font:700 18px 'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase">Continue · Chest-Supported Row</span><span style="font:700 18px 'Barlow Condensed',sans-serif">→</span></div>
+            <nav style="display:flex;padding:10px 0 34px">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:700 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#f2f3f5"><span>Today</span><span style="width:20px;height:3px;border-radius:2px;background:oklch(0.74 0.19 50)"></span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#8b909c"><span>Progress</span><span style="width:20px;height:3px"></span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#8b909c"><span>Plan</span><span style="width:20px;height:3px"></span></div>
+            </nav>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- ============ EXERCISE DETAIL (dark) ============ -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 11px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.55)">02 · Exercise + set logger + rest timer</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#0c0d10;color:#f2f3f5;font-family:Barlow,system-ui,sans-serif;font-size:15px">
+          <div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:58px 20px 24px;display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="width:40px;height:40px;border-radius:50%;background:#15171c;border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f2f3f5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Exercise 1 of 8</span>
+              <span style="width:40px;height:40px"></span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <h1 style="margin:0;font:800 40px/.95 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:-.01em">Incline Dumbbell Press</h1>
+              <span style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8b909c;font-variant-numeric:tabular-nums">3 × 8–12 · Rest 120 s · Per dumbbell</span>
+            </div>
+
+            <div style="position:relative;flex-shrink:0;height:190px;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 30%,#1c1f26,#0c0d10);border:1px solid rgba(255,255,255,.06)">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 12px ui-monospace,Menlo,monospace;color:#8b909c;background:repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0 8px,transparent 8px 16px)">[ 3D anatomy — existing three.js viewer ]</div>
+              <div style="position:absolute;left:14px;bottom:12px;display:flex;flex-direction:column;gap:2px"><span style="font:700 16px 'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:oklch(0.74 0.19 50)">Chest · Front delts</span><span style="font-size:12px;color:#8b909c">with Triceps</span></div>
+              <span style="position:absolute;right:12px;top:12px;width:32px;height:32px;border-radius:50%;background:rgba(12,13,16,.6);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b909c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14.5l6-6 6 6"></path></svg></span>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:16px;background:oklch(0.74 0.19 50 / .12);border:1px solid oklch(0.74 0.19 50 / .5);border-radius:16px;padding:14px 16px">
+              <div style="display:flex;align-items:baseline;gap:4px;color:oklch(0.74 0.19 50)"><span style="font:800 48px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">25</span><span style="font:700 14px 'Barlow Condensed',sans-serif;letter-spacing:.08em">KG</span></div>
+              <div style="display:flex;flex-direction:column;gap:2px"><span style="font:700 12px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:oklch(0.74 0.19 50)">Progression unlocked</span><span style="font-size:13px;line-height:1.4;color:#f2f3f5">You owned 3 × 12 @ 22.5 kg last session. Step up 2.5 kg today.</span></div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8b909c;padding:0 4px"><span>Sets</span><span>Best 22.5 × 12 · 22 Aug</span></div>
+              <div style="display:flex;align-items:center;gap:14px;background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 16px;min-height:60px">
+                <span style="width:28px;height:28px;border-radius:50%;background:oklch(0.74 0.16 150);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0c0d10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg></span>
+                <span style="font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8b909c;width:44px">Set 1</span>
+                <span style="flex:1;font:700 24px 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">25 <span style="font-size:13px;color:#8b909c;font-weight:600">KG</span> &nbsp;×&nbsp; 10 <span style="font-size:13px;color:#8b909c;font-weight:600">REPS</span></span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b909c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17 4 20ZM13.5 6l3 3"></path></svg>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;background:#15171c;border:1.5px solid oklch(0.74 0.19 50);border-radius:14px;padding:14px 16px 16px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:oklch(0.74 0.19 50)">Set 2 · Now</span><span style="font-size:12px;color:#8b909c">Target 8–12</span></div>
+                <div style="display:flex;align-items:stretch;gap:10px">
+                  <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                    <span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">KG</span>
+                    <div style="display:flex;align-items:center;background:#0c0d10;border:1px solid rgba(255,255,255,.08);border-radius:12px;height:56px"><span style="width:44px;height:100%;display:flex;align-items:center;justify-content:center;color:#8b909c;font-size:20px">−</span><span style="flex:1;text-align:center;font:800 30px 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">25</span><span style="width:44px;height:100%;display:flex;align-items:center;justify-content:center;color:#f2f3f5;font-size:20px">+</span></div>
+                  </div>
+                  <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                    <span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Reps</span>
+                    <div style="display:flex;align-items:center;background:#0c0d10;border:1px solid rgba(255,255,255,.08);border-radius:12px;height:56px"><span style="width:44px;height:100%;display:flex;align-items:center;justify-content:center;color:#8b909c;font-size:20px">−</span><span style="flex:1;text-align:center;font:800 30px 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">8</span><span style="width:44px;height:100%;display:flex;align-items:center;justify-content:center;color:#f2f3f5;font-size:20px">+</span></div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:12px;background:oklch(0.74 0.19 50);color:#0c0d10;font:700 16px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0c0d10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg> Log set 2</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 16px;min-height:60px;opacity:.5">
+                <span style="width:28px;height:28px;border-radius:50%;border:1.5px solid #8b909c;flex-shrink:0"></span>
+                <span style="font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8b909c;width:44px">Set 3</span>
+                <span style="flex:1;font:700 24px 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums;color:#8b909c">25 <span style="font-size:13px;font-weight:600">KG</span> &nbsp;×&nbsp; 8 <span style="font-size:13px;font-weight:600">REPS</span></span>
+              </div>
+              <span style="align-self:flex-start;padding:0 4px;font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8b909c;min-height:44px;display:flex;align-items:center">+ Add set</span>
+            </div>
+
+            <div style="display:flex;gap:8px">
+              <span style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;background:#15171c;border:1px solid rgba(255,255,255,.08);font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase">Form cues</span>
+              <span style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;background:#15171c;border:1px solid rgba(255,255,255,.08);font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase"><svg width="12" height="12" viewBox="0 0 24 24" fill="#f2f3f5"><path d="M8 5.5v13l10.5-6.5L8 5.5Z"></path></svg> Form video</span>
+            </div>
+          </div>
+          <div style="position:relative;overflow:hidden;background:#15171c;border-top:1px solid rgba(255,255,255,.08);padding:14px 20px 44px;display:flex;align-items:center;gap:14px">
+            <div style="position:absolute;left:0;top:0;height:3px;width:100%;background:oklch(0.74 0.19 50);transform-origin:left;transform:{{ restTransform }}"></div>
+            <div style="display:flex;flex-direction:column"><span style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Rest</span><span style="font:800 40px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums;color:oklch(0.74 0.19 50)">{{ restLabel }}</span></div>
+            <span style="flex:1;font-size:12px;color:#8b909c;line-height:1.4">Next: Set 2 · 25 kg × 8</span>
+            <span style="height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;font:700 14px 'Barlow Condensed',sans-serif;letter-spacing:.08em">+30 s</span>
+            <span style="height:44px;padding:0 16px;border-radius:999px;background:#f2f3f5;color:#0c0d10;display:flex;align-items:center;font:700 14px 'Barlow Condensed',sans-serif;letter-spacing:.08em;text-transform:uppercase">Skip</span>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- ============ PROGRESS (dark) ============ -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 11px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.55)">03 · Progress</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#0c0d10;color:#f2f3f5;font-family:Barlow,system-ui,sans-serif;font-size:15px">
+          <div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:62px 20px 24px;display:flex;flex-direction:column;gap:20px">
+            <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Week 36 · 31 Aug – 6 Sep</span><h1 style="margin:0;font:800 44px/.95 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:-.01em">Progress</h1></div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+              <div style="background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Sessions</span><span style="font:800 30px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">3<span style="color:#8b909c;font-weight:600">/4</span></span></div>
+              <div style="background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Volume</span><span style="font:800 30px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">12.4<span style="font-size:14px;color:#8b909c;font-weight:600"> t</span></span><span style="font-size:11px;color:oklch(0.74 0.16 150);font-weight:600">▲ 6% vs last wk</span></div>
+              <div style="background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">New bests</span><span style="font:800 30px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums;color:oklch(0.74 0.19 50)">2</span></div>
+            </div>
+
+            <div style="background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:flex-end;justify-content:space-between">
+                <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Body weight · 7-day avg</span><span style="display:flex;align-items:baseline;gap:4px"><span style="font:800 44px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">82.4</span><span style="font:700 14px 'Barlow Condensed',sans-serif;color:#8b909c">KG</span></span></div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font:700 18px 'Barlow Condensed',sans-serif;color:oklch(0.74 0.16 150);font-variant-numeric:tabular-nums">−1.3 kg</span><span style="font-size:11px;color:#8b909c">last 4 weeks</span></div>
+              </div>
+              <svg viewBox="0 0 330 140" style="width:100%;height:auto;display:block" role="img">
+                <g stroke="rgba(255,255,255,.06)" stroke-width="1"><line x1="0" y1="20" x2="330" y2="20"></line><line x1="0" y1="60" x2="330" y2="60"></line><line x1="0" y1="100" x2="330" y2="100"></line></g>
+                <text x="330" y="17" text-anchor="end" fill="#8b909c" font-size="10" font-family="Barlow">84.5</text>
+                <text x="330" y="97" text-anchor="end" fill="#8b909c" font-size="10" font-family="Barlow">82.5</text>
+                <line x1="0" y1="128" x2="330" y2="128" stroke="oklch(0.74 0.19 50)" stroke-width="1" stroke-dasharray="3 4"></line>
+                <text x="0" y="124" fill="oklch(0.74 0.19 50)" font-size="10" font-weight="700" font-family="Barlow">GOAL 78</text>
+                <polygon fill="oklch(0.74 0.19 50 / .12)" points="8,30 36,33 64,36 92,42 120,46 148,53 176,58 204,66 232,71 260,80 288,88 322,95 322,140 8,140"></polygon>
+                <g fill="#8b909c" opacity=".4"><circle cx="8" cy="20" r="2.5"></circle><circle cx="36" cy="34" r="2.5"></circle><circle cx="64" cy="26" r="2.5"></circle><circle cx="92" cy="48" r="2.5"></circle><circle cx="120" cy="40" r="2.5"></circle><circle cx="148" cy="62" r="2.5"></circle><circle cx="176" cy="55" r="2.5"></circle><circle cx="204" cy="78" r="2.5"></circle><circle cx="232" cy="70" r="2.5"></circle><circle cx="260" cy="92" r="2.5"></circle><circle cx="288" cy="86" r="2.5"></circle><circle cx="322" cy="106" r="2.5"></circle></g>
+                <polyline fill="none" stroke="oklch(0.74 0.19 50)" stroke-width="2.5" stroke-linejoin="round" points="8,30 36,33 64,36 92,42 120,46 148,53 176,58 204,66 232,71 260,80 288,88 322,95"></polyline>
+                <circle cx="322" cy="95" r="5" fill="#0c0d10" stroke="oklch(0.74 0.19 50)" stroke-width="2.5"></circle>
+              </svg>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="flex:1;display:flex;align-items:center;background:#0c0d10;border:1px solid rgba(255,255,255,.08);border-radius:12px;height:48px"><span style="width:44px;height:100%;display:flex;align-items:center;justify-content:center;color:#8b909c;font-size:18px">−</span><span style="flex:1;text-align:center;font:800 24px 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">82.1 <span style="font-size:12px;color:#8b909c;font-weight:600">KG</span></span><span style="width:44px;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px">+</span></div>
+                <span style="height:48px;padding:0 18px;border-radius:12px;background:#f2f3f5;color:#0c0d10;display:flex;align-items:center;font:700 14px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase">Log today</span>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c;padding:0 4px"><span>Top set weight</span><span>Last 6 sessions</span></div>
+              <div style="display:flex;align-items:center;gap:14px;background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 16px">
+                <div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:15px">Incline Dumbbell Press</span><span style="font-size:11px;color:#8b909c">per dumbbell</span></div>
+                <svg viewBox="0 0 90 32" width="90" height="32"><polyline fill="none" stroke="oklch(0.74 0.19 50)" stroke-width="2" stroke-linejoin="round" points="2,29 19,29 36,20 53,20 70,11 88,3"></polyline><circle cx="88" cy="3" r="3" fill="oklch(0.74 0.19 50)"></circle></svg>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;width:56px"><span style="font:800 24px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">25</span><span style="font-size:11px;color:oklch(0.74 0.16 150);font-weight:600">+2.5</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 16px">
+                <div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:15px">Assisted Pull-Up</span><span style="font-size:11px;color:#8b909c">assist · lower is stronger</span></div>
+                <svg viewBox="0 0 90 32" width="90" height="32"><polyline fill="none" stroke="oklch(0.74 0.19 50)" stroke-width="2" stroke-linejoin="round" points="2,29 19,29 36,20 53,20 70,11 88,3"></polyline><circle cx="88" cy="3" r="3" fill="oklch(0.74 0.19 50)"></circle></svg>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;width:56px"><span style="font:800 24px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">20</span><span style="font-size:11px;color:oklch(0.74 0.16 150);font-weight:600">−2.5</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 16px">
+                <div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:15px">Chest-Supported Row</span><span style="font-size:11px;color:#8b909c">machine stack</span></div>
+                <svg viewBox="0 0 90 32" width="90" height="32"><polyline fill="none" stroke="#8b909c" stroke-width="2" stroke-linejoin="round" points="2,29 19,22 36,22 53,15 70,9 88,3"></polyline><circle cx="88" cy="3" r="3" fill="#8b909c"></circle></svg>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;width:56px"><span style="font:800 24px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">45</span><span style="font-size:11px;color:#8b909c;font-weight:600">held</span></div>
+              </div>
+            </div>
+          </div>
+          <nav style="display:flex;padding:10px 20px 34px;background:#0c0d10;border-top:1px solid rgba(255,255,255,.06)">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#8b909c"><span>Today</span><span style="width:20px;height:3px"></span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:700 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#f2f3f5"><span>Progress</span><span style="width:20px;height:3px;border-radius:2px;background:oklch(0.74 0.19 50)"></span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#8b909c"><span>Plan</span><span style="width:20px;height:3px"></span></div>
+          </nav>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- ============ PLAN (dark) ============ -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 11px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.55)">04 · Plan</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#0c0d10;color:#f2f3f5;font-family:Barlow,system-ui,sans-serif;font-size:15px">
+          <div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:62px 20px 24px;display:flex;flex-direction:column;gap:20px">
+            <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">4 lifts · 1 cardio · 2 rest</span><h1 style="margin:0;font:800 44px/.95 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:-.01em">Your week</h1></div>
+
+            <div style="display:flex;flex-direction:column;background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:700 14px 'Barlow Condensed',sans-serif;color:#8b909c;width:34px;letter-spacing:.06em">MON</span><span style="flex:1;font-weight:600">Upper Body A</span><span style="font:600 11px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8b909c">7 lifts</span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:700 14px 'Barlow Condensed',sans-serif;color:#8b909c;width:34px;letter-spacing:.06em">TUE</span><span style="flex:1;font-weight:600">Lower Body A</span><span style="font:600 11px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8b909c">6 lifts</span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:700 14px 'Barlow Condensed',sans-serif;color:#8b909c;width:34px;letter-spacing:.06em">WED</span><span style="flex:1;font-weight:500;color:#8b909c">Easy cardio 30–40 min</span><span style="font:600 11px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8b909c">Cardio</span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06);background:oklch(0.74 0.19 50 / .1)"><span style="font:700 14px 'Barlow Condensed',sans-serif;color:oklch(0.74 0.19 50);width:34px;letter-spacing:.06em">THU</span><span style="flex:1;font-weight:700">Upper Body B</span><span style="font:700 11px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:oklch(0.74 0.19 50)">Today</span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:700 14px 'Barlow Condensed',sans-serif;color:#8b909c;width:34px;letter-spacing:.06em">FRI</span><span style="flex:1;font-weight:500;color:#8b909c">Rest / walking</span><span style="font:600 11px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8b909c">Rest</span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:700 14px 'Barlow Condensed',sans-serif;color:#8b909c;width:34px;letter-spacing:.06em">SAT</span><span style="flex:1;font-weight:600">Lower Body B <span style="color:#8b909c;font-weight:400">+ incline walk</span></span><span style="font:600 11px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8b909c">6 lifts</span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 16px"><span style="font:700 14px 'Barlow Condensed',sans-serif;color:#8b909c;width:34px;letter-spacing:.06em">SUN</span><span style="flex:1;font-weight:500;color:#8b909c">Rest / walking</span><span style="font:600 11px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8b909c">Rest</span></div>
+            </div>
+
+            <div style="background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">How hard</span>
+              <span style="font:800 28px/1 'Barlow Condensed',sans-serif;text-transform:uppercase">1–3 reps in reserve</span>
+              <p style="margin:0;font-size:13px;line-height:1.5;color:#8b909c">Stop before failure. Progress reps first, then weight: hit the top of the range on every set, add 2.5 kg, build back up. The app nudges you when it's time.</p>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c;padding:0 4px">Nutrition targets</span>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+                <div style="background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Protein</span><span style="font:800 24px/1 'Barlow Condensed',sans-serif">160–180<span style="font-size:12px;color:#8b909c;font-weight:600"> g</span></span></div>
+                <div style="background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Deficit</span><span style="font:800 24px/1 'Barlow Condensed',sans-serif">300–500<span style="font-size:12px;color:#8b909c;font-weight:600"> kcal</span></span></div>
+                <div style="background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Steps</span><span style="font:800 24px/1 'Barlow Condensed',sans-serif">8–10<span style="font-size:12px;color:#8b909c;font-weight:600"> k</span></span></div>
+              </div>
+              <ul style="margin:4px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.45;color:#8b909c">
+                <li>Protein + veg/fruit + a sensible carb portion each meal</li>
+                <li>Control alcohol, sugary drinks, desserts and snacking — don't cut carbs entirely</li>
+                <li>Weigh in 3–5 mornings a week; judge only the weekly average</li>
+                <li>Flat for 2–3 weeks → eat slightly less or move slightly more</li>
+              </ul>
+            </div>
+
+            <div style="background:#15171c;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b909c">Backup</span><span style="font-size:12px;color:#8b909c">Last export 12 days ago</span></div>
+              <div style="display:flex;gap:8px">
+                <span style="flex:1;height:46px;border-radius:12px;background:#f2f3f5;color:#0c0d10;display:flex;align-items:center;justify-content:center;font:700 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase">Export data</span>
+                <span style="flex:1;height:46px;border-radius:12px;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font:700 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase">Import</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-top:4px"><span style="font-size:14px">Rest-timer sound</span><span style="width:44px;height:26px;border-radius:13px;background:oklch(0.74 0.19 50);position:relative"><span style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#0c0d10"></span></span></div>
+            </div>
+            <p style="margin:0;font-size:11px;line-height:1.5;color:#8b909c">3D anatomy model derived from <a href="#" style="color:#8b909c">BodyParts3D</a> © DBCLS (CC-BY-SA 2.1 JP) and <a href="#" style="color:#8b909c">Z-Anatomy</a> (CC-BY-SA 4.0), via BodyExplorer.</p>
+          </div>
+          <nav style="display:flex;padding:10px 20px 34px;background:#0c0d10;border-top:1px solid rgba(255,255,255,.06)">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#8b909c"><span>Today</span><span style="width:20px;height:3px"></span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#8b909c"><span>Progress</span><span style="width:20px;height:3px"></span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:700 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#f2f3f5"><span>Plan</span><span style="width:20px;height:3px;border-radius:2px;background:oklch(0.74 0.19 50)"></span></div>
+          </nav>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- ============ TODAY (light) ============ -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 11px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.55)">05 · Today — light mode</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#f4f3f0;color:#14151a;font-family:Barlow,system-ui,sans-serif;font-size:15px;position:relative">
+          <div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:62px 20px 120px;display:flex;flex-direction:column;gap:22px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#6b7080">Thursday · 3 Sep</span>
+                <span style="font:700 12px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:oklch(0.6 0.2 50);background:oklch(0.6 0.2 50 / .12);padding:4px 10px;border-radius:999px">Week 36 · {{ sessionsDone }}/4</span>
+              </div>
+              <h1 style="margin:0;font:800 56px/.92 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:-.015em">Upper<br>Body B</h1>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#6b7080">M</span><span style="height:6px;width:100%;border-radius:3px;background:oklch(0.62 0.16 150)"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#6b7080">T</span><span style="height:6px;width:100%;border-radius:3px;background:oklch(0.62 0.16 150)"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#6b7080">W</span><span style="height:6px;width:100%;border-radius:3px;background:oklch(0.62 0.16 150 / .45)"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:700;color:#14151a">T</span><span style="height:6px;width:100%;border-radius:3px;background:oklch(0.66 0.2 50)"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#6b7080">F</span><span style="height:6px;width:100%;border-radius:3px;background:rgba(0,0,0,.08)"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#6b7080">S</span><span style="height:6px;width:100%;border-radius:3px;background:rgba(0,0,0,.08)"></span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="font-size:11px;font-weight:600;color:#6b7080">S</span><span style="height:6px;width:100%;border-radius:3px;background:rgba(0,0,0,.08)"></span></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:#6b7080"><span>Session {{ sessionNumber }} of 4 this week</span><span style="color:oklch(0.55 0.16 150);font-weight:600">3-week streak</span></div>
+            </div>
+
+            <div style="background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)">
+              <div style="display:flex;align-items:flex-end;justify-content:space-between">
+                <div style="display:flex;align-items:baseline;gap:6px"><span style="font:800 40px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums">2<span style="color:#6b7080;font-weight:600">/8</span></span><span style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#6b7080">exercises</span></div>
+                <span style="font-size:12px;color:#6b7080;font-variant-numeric:tabular-nums">5 of 24 sets · ~38 min left</span>
+              </div>
+              <div style="height:6px;border-radius:3px;background:rgba(0,0,0,.07);overflow:hidden"><div style="height:100%;width:25%;border-radius:3px;background:oklch(0.66 0.2 50)"></div></div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(0,0,0,.07);opacity:.5"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#6b7080;width:26px">01</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px;text-decoration:line-through">Incline Dumbbell Press</span><span style="font-size:12px;color:#6b7080">3 × 10 · 25 kg</span></div><span style="width:28px;height:28px;border-radius:50%;background:oklch(0.62 0.16 150);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(0,0,0,.07);opacity:.5"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#6b7080;width:26px">02</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px;text-decoration:line-through">Assisted Pull-Up</span><span style="font-size:12px;color:#6b7080">3 × 9 · 20 kg assist</span></div><span style="width:28px;height:28px;border-radius:50%;background:oklch(0.62 0.16 150);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 12px;margin:4px -8px;border-radius:14px;background:#fff;border:1.5px solid oklch(0.66 0.2 50);box-shadow:0 2px 8px rgba(0,0,0,.05)"><span style="font:700 18px 'Barlow Condensed',sans-serif;color:oklch(0.6 0.2 50);width:26px">03</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:700;font-size:16px">Chest-Supported Row</span><span style="font-size:12px;color:#6b7080">3 × 8–12 · last 45 kg</span></div><span style="font:700 22px 'Barlow Condensed',sans-serif;color:oklch(0.6 0.2 50)">1<span style="color:#6b7080;font-weight:500">/3</span></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(0,0,0,.07)"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#6b7080;width:26px">04</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Cable / Machine Chest Fly</span><span style="font-size:12px;color:#6b7080">3 × 10–15 · last 35 kg</span></div><span style="font:600 20px 'Barlow Condensed',sans-serif">35 <span style="font-size:12px;color:#6b7080">KG</span></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(0,0,0,.07)"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#6b7080;width:26px">05</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Lateral Raise</span><span style="font-size:12px;color:#6b7080">3 × 12–20 · last 8 kg</span></div><span style="font:600 20px 'Barlow Condensed',sans-serif">8 <span style="font-size:12px;color:#6b7080">KG</span></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(0,0,0,.07)"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#6b7080;width:26px">06</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Rear Delt Fly</span><span style="font-size:12px;color:#6b7080">3 × 12–20 · last 7 kg</span></div><span style="font:600 20px 'Barlow Condensed',sans-serif">7 <span style="font-size:12px;color:#6b7080">KG</span></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(0,0,0,.07)"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#6b7080;width:26px">07</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Biceps Curl</span><span style="font-size:12px;color:#6b7080">3 × 10–15 · last 12 kg</span></div><span style="font:600 20px 'Barlow Condensed',sans-serif">12 <span style="font-size:12px;color:#6b7080">KG</span></span></div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 4px"><span style="font:600 18px 'Barlow Condensed',sans-serif;color:#6b7080;width:26px">08</span><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Overhead Triceps Extension</span><span style="font-size:12px;color:#6b7080">3 × 10–15 · last 15 kg</span></div><span style="font:600 20px 'Barlow Condensed',sans-serif">15 <span style="font-size:12px;color:#6b7080">KG</span></span></div>
+            </div>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:linear-gradient(to bottom,rgba(244,243,240,0),#f4f3f0 30%);padding:24px 20px 0">
+            <div style="display:flex;align-items:center;justify-content:space-between;background:#14151a;color:#fff;border-radius:14px;padding:0 18px;height:56px;box-shadow:0 8px 24px rgba(0,0,0,.18)"><span style="font:700 18px 'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase">Continue · Chest-Supported Row</span><span style="font:700 18px 'Barlow Condensed',sans-serif;color:oklch(0.74 0.19 50)">→</span></div>
+            <nav style="display:flex;padding:10px 0 34px">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:700 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#14151a"><span>Today</span><span style="width:20px;height:3px;border-radius:2px;background:oklch(0.66 0.2 50)"></span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#6b7080"><span>Progress</span><span style="width:20px;height:3px"></span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#6b7080"><span>Plan</span><span style="width:20px;height:3px"></span></div>
+            </nav>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- ============ DETAIL (light) ============ -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 11px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.55)">06 · Set logger — light mode</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#f4f3f0;color:#14151a;font-family:Barlow,system-ui,sans-serif;font-size:15px">
+          <div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:58px 20px 24px;display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14151a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#6b7080">Exercise 1 of 8</span>
+              <span style="width:40px;height:40px"></span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <h1 style="margin:0;font:800 40px/.95 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:-.01em">Incline Dumbbell Press</h1>
+              <span style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#6b7080">3 × 8–12 · Rest 120 s · Per dumbbell</span>
+            </div>
+            <div style="position:relative;flex-shrink:0;height:190px;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 30%,#fff,#e6e4df);border:1px solid rgba(0,0,0,.06)">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 12px ui-monospace,Menlo,monospace;color:#6b7080;background:repeating-linear-gradient(135deg,rgba(0,0,0,.03) 0 8px,transparent 8px 16px)">[ 3D anatomy — existing three.js viewer ]</div>
+              <div style="position:absolute;left:14px;bottom:12px;display:flex;flex-direction:column;gap:2px"><span style="font:700 16px 'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:oklch(0.6 0.2 50)">Chest · Front delts</span><span style="font-size:12px;color:#6b7080">with Triceps</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;background:#fff;border:1.5px solid oklch(0.66 0.2 50);border-radius:16px;padding:14px 16px">
+              <div style="display:flex;align-items:baseline;gap:4px;color:oklch(0.6 0.2 50)"><span style="font:800 48px/1 'Barlow Condensed',sans-serif">25</span><span style="font:700 14px 'Barlow Condensed',sans-serif;letter-spacing:.08em">KG</span></div>
+              <div style="display:flex;flex-direction:column;gap:2px"><span style="font:700 12px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:oklch(0.6 0.2 50)">Progression unlocked</span><span style="font-size:13px;line-height:1.4">You owned 3 × 12 @ 22.5 kg last session. Step up 2.5 kg today.</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#6b7080;padding:0 4px"><span>Sets</span><span>Best 22.5 × 12 · 22 Aug</span></div>
+              <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:14px;padding:12px 16px;min-height:60px">
+                <span style="width:28px;height:28px;border-radius:50%;background:oklch(0.62 0.16 150);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg></span>
+                <span style="font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#6b7080;width:44px">Set 1</span>
+                <span style="flex:1;font:700 24px 'Barlow Condensed',sans-serif">25 <span style="font-size:13px;color:#6b7080;font-weight:600">KG</span> &nbsp;×&nbsp; 10 <span style="font-size:13px;color:#6b7080;font-weight:600">REPS</span></span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17 4 20ZM13.5 6l3 3"></path></svg>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;background:#fff;border:1.5px solid oklch(0.66 0.2 50);border-radius:14px;padding:14px 16px 16px;box-shadow:0 2px 8px rgba(0,0,0,.05)">
+                <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:oklch(0.6 0.2 50)">Set 2 · Now</span><span style="font-size:12px;color:#6b7080">Target 8–12</span></div>
+                <div style="display:flex;align-items:stretch;gap:10px">
+                  <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6b7080">KG</span><div style="display:flex;align-items:center;background:#f4f3f0;border:1px solid rgba(0,0,0,.08);border-radius:12px;height:56px"><span style="width:44px;height:100%;display:flex;align-items:center;justify-content:center;color:#6b7080;font-size:20px">−</span><span style="flex:1;text-align:center;font:800 30px 'Barlow Condensed',sans-serif">25</span><span style="width:44px;height:100%;display:flex;align-items:center;justify-content:center;font-size:20px">+</span></div></div>
+                  <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6b7080">Reps</span><div style="display:flex;align-items:center;background:#f4f3f0;border:1px solid rgba(0,0,0,.08);border-radius:12px;height:56px"><span style="width:44px;height:100%;display:flex;align-items:center;justify-content:center;color:#6b7080;font-size:20px">−</span><span style="flex:1;text-align:center;font:800 30px 'Barlow Condensed',sans-serif">8</span><span style="width:44px;height:100%;display:flex;align-items:center;justify-content:center;font-size:20px">+</span></div></div>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:12px;background:#14151a;color:#fff;font:700 16px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.74 0.19 50)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg> Log set 2</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:14px;padding:12px 16px;min-height:60px;opacity:.55">
+                <span style="width:28px;height:28px;border-radius:50%;border:1.5px solid #6b7080;flex-shrink:0"></span>
+                <span style="font:600 13px 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#6b7080;width:44px">Set 3</span>
+                <span style="flex:1;font:700 24px 'Barlow Condensed',sans-serif;color:#6b7080">25 <span style="font-size:13px;font-weight:600">KG</span> &nbsp;×&nbsp; 8 <span style="font-size:13px;font-weight:600">REPS</span></span>
+              </div>
+            </div>
+          </div>
+          <div style="position:relative;overflow:hidden;background:#fff;border-top:1px solid rgba(0,0,0,.08);padding:14px 20px 44px;display:flex;align-items:center;gap:14px">
+            <div style="position:absolute;left:0;top:0;height:3px;width:100%;background:oklch(0.66 0.2 50);transform-origin:left;transform:{{ restTransform }}"></div>
+            <div style="display:flex;flex-direction:column"><span style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6b7080">Rest</span><span style="font:800 40px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums;color:oklch(0.6 0.2 50)">{{ restLabel }}</span></div>
+            <span style="flex:1;font-size:12px;color:#6b7080;line-height:1.4">Next: Set 2 · 25 kg × 8</span>
+            <span style="height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(0,0,0,.14);display:flex;align-items:center;font:700 14px 'Barlow Condensed',sans-serif;letter-spacing:.08em">+30 s</span>
+            <span style="height:44px;padding:0 16px;border-radius:999px;background:#14151a;color:#fff;display:flex;align-items:center;font:700 14px 'Barlow Condensed',sans-serif;letter-spacing:.08em;text-transform:uppercase">Skip</span>
+          </div>
+        </div>
+      </x-import>
+    </div>
+  </div>
+
+  <div style="max-width:760px;font:400 13px/1.55 Barlow,system-ui,sans-serif;color:rgba(0,0,0,.6)"><b>Next steps:</b> confirm the accent (orange shown; the tweaks panel lets you try other rest/streak states) · decide whether the "Continue" CTA should replace tapping rows · I can then produce a Progress + Plan light variant and a token sheet (colors, type scale, spacing) for implementation in <code>styles.css</code>.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;restSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:107,&quot;min&quot;:0,&quot;max&quot;:120,&quot;step&quot;:1,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Live state&quot;},&quot;sessionsDone&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:3,&quot;min&quot;:0,&quot;max&quot;:4,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Live state&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const rest = Math.max(0, Math.round(this.props.restSeconds ?? 107));
+    const total = 120;
+    const done = Math.min(4, Math.max(0, Math.round(this.props.sessionsDone ?? 3)));
+    return {
+      restLabel: `${Math.floor(rest / 60)}:${String(rest % 60).padStart(2, '0')}`,
+      restTransform: `scaleX(${Math.min(1, rest / total)})`,
+      sessionsDone: done,
+      sessionNumber: Math.min(4, done + 1),
+    };
+  }
+}
+</script>
+</body>
+</html>

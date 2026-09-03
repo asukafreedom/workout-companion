@@ -79,10 +79,6 @@ export default function Viewer({ exercise }: { exercise: Exercise }) {
         <Framing focus={focus} touched={touched} fromBehind={exercise.primary.some((g) => POSTERIOR.has(g))} />
       </Canvas>
       {!ready && <div className="viewer-loading">Loading 3D anatomy…</div>}
-      <div className="legend">
-        <span><i className="dot primary" /> primary</span>
-        <span><i className="dot secondary" /> secondary</span>
-      </div>
     </div>
   );
 }
