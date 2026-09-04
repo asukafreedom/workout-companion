@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><meta name="design_doc_mode" content="canvas"><style>body{margin:0;background:#f0eee9;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}a{color:#1a1a1a}a:hover{color:#2a78d6}</style></helmet>
+<div style="padding:40px 44px 60px;display:flex;flex-direction:column;gap:24px">
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:8px">
+    <div style="font:600 10px ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,0,0,.5)">Reference · recreated from asukafreedom/workout-companion</div>
+    <h1 style="margin:0;font:700 22px/1.2 system-ui,sans-serif;color:#1a1a1a">Current UI — Workout Companion</h1>
+    <p style="margin:0;font:400 13px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.6);text-wrap:pretty">Faithful copy of today's app, built from <code>styles.css</code>, <code>App.tsx</code> and the screen components. Data is the real plan (Thursday · Upper Body B) with a plausible mid-session state so the redesign can be compared like-for-like. See the <a href="Redesign.dc.html">redesign</a>.</p>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap">
+
+    <!-- TODAY -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 11px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.55)">TodayScreen.tsx</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#0f1115;color:#e8ecf3;font-size:16px">
+          <div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:62px 16px 8px">
+            <div style="max-width:480px;margin:0 auto;padding-bottom:24px">
+              <div style="display:flex;gap:4px;margin-bottom:20px">
+                <div style="flex:1 0 44px;min-height:44px;padding:8px 0;text-align:center;font-size:13px;color:#97a0b3;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center;justify-content:center">Sun</div>
+                <div style="flex:1 0 44px;min-height:44px;padding:8px 0;text-align:center;font-size:13px;color:#97a0b3;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center;justify-content:center">Mon</div>
+                <div style="flex:1 0 44px;min-height:44px;padding:8px 0;text-align:center;font-size:13px;color:#97a0b3;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center;justify-content:center">Tue</div>
+                <div style="flex:1 0 44px;min-height:44px;padding:8px 0;text-align:center;font-size:13px;color:#97a0b3;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center;justify-content:center">Wed</div>
+                <div style="flex:1 0 44px;min-height:44px;padding:8px 0;text-align:center;font-size:13px;font-weight:650;color:#e8ecf3;background:#212733;border:1px solid #4f8ef7;border-radius:12px;box-shadow:inset 0 -2px 0 #4f8ef7;display:flex;align-items:center;justify-content:center">Thu</div>
+                <div style="flex:1 0 44px;min-height:44px;padding:8px 0;text-align:center;font-size:13px;color:#97a0b3;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center;justify-content:center">Fri</div>
+                <div style="flex:1 0 44px;min-height:44px;padding:8px 0;text-align:center;font-size:13px;color:#97a0b3;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center;justify-content:center">Sat</div>
+              </div>
+              <h1 style="margin:0 0 4px;font-size:24px;font-weight:700;letter-spacing:-0.015em">Upper Body B</h1>
+              <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:10px">
+                <li style="display:flex;align-items:stretch;gap:8px;background:#181c23;border:1px solid #2c3442;border-radius:12px"><div style="flex:1;padding:14px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Incline Dumbbell Press<span style="color:#46c07a;margin-left:4px"><svg style="width:1.1em;height:1.1em;vertical-align:-.18em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg></span></span><span style="color:#97a0b3;font-size:13px;font-variant-numeric:tabular-nums">3×8–12 · last: 22.5 kg</span></div></li>
+                <li style="display:flex;align-items:stretch;gap:8px;background:#181c23;border:1px solid #2c3442;border-radius:12px"><div style="flex:1;padding:14px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Assisted Pull-Up 1/3</span><span style="color:#97a0b3;font-size:13px;font-variant-numeric:tabular-nums">3×8–12 · last: 20 kg</span></div><div style="align-self:center;margin-right:10px;font-size:13px;color:#97a0b3;padding:8px 10px;min-height:44px;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center;gap:4px"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3.5 7.5L7 11M3.5 7.5H16M17 13l3.5 3.5L17 20M20.5 16.5H8"></path></svg> Lat Pulldown</div></li>
+                <li style="display:flex;align-items:stretch;gap:8px;background:#181c23;border:1px solid #2c3442;border-radius:12px"><div style="flex:1;padding:14px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Chest-Supported Row</span><span style="color:#97a0b3;font-size:13px;font-variant-numeric:tabular-nums">3×8–12 · last: 45 kg</span></div></li>
+                <li style="display:flex;align-items:stretch;gap:8px;background:#181c23;border:1px solid #2c3442;border-radius:12px"><div style="flex:1;padding:14px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Cable / Machine Chest Fly</span><span style="color:#97a0b3;font-size:13px;font-variant-numeric:tabular-nums">3×10–15 · last: 35 kg</span></div></li>
+                <li style="display:flex;align-items:stretch;gap:8px;background:#181c23;border:1px solid #2c3442;border-radius:12px"><div style="flex:1;padding:14px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Lateral Raise</span><span style="color:#97a0b3;font-size:13px;font-variant-numeric:tabular-nums">3×12–20 · last: 8 kg</span></div></li>
+                <li style="display:flex;align-items:stretch;gap:8px;background:#181c23;border:1px solid #2c3442;border-radius:12px"><div style="flex:1;padding:14px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Rear Delt Fly</span><span style="color:#97a0b3;font-size:13px;font-variant-numeric:tabular-nums">3×12–20 · last: 7 kg</span></div></li>
+                <li style="display:flex;align-items:stretch;gap:8px;background:#181c23;border:1px solid #2c3442;border-radius:12px"><div style="flex:1;padding:14px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Biceps Curl</span><span style="color:#97a0b3;font-size:13px;font-variant-numeric:tabular-nums">3×10–15 · last: 12 kg</span></div></li>
+                <li style="display:flex;align-items:stretch;gap:8px;background:#181c23;border:1px solid #2c3442;border-radius:12px"><div style="flex:1;padding:14px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Overhead Triceps Extension</span><span style="color:#97a0b3;font-size:13px;font-variant-numeric:tabular-nums">3×10–15 · last: 15 kg</span></div></li>
+              </ul>
+              <p style="color:#97a0b3;font-size:13px;margin:8px 0;line-height:1.5">Side and rear delts get extra volume on purpose — pressing already covers front delts.</p>
+            </div>
+          </div>
+          <nav style="display:flex;border-top:1px solid #2c3442;background:#181c23;padding-bottom:34px">
+            <div style="flex:1;padding:12px 0;text-align:center;font-size:13px;color:#4f8ef7;font-weight:650;box-shadow:inset 0 2px 0 #4f8ef7">Today</div>
+            <div style="flex:1;padding:12px 0;text-align:center;font-size:13px;color:#97a0b3">Progress</div>
+            <div style="flex:1;padding:12px 0;text-align:center;font-size:13px;color:#97a0b3">Plan</div>
+          </nav>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- EXERCISE DETAIL -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 11px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.55)">ExerciseDetail.tsx + SetLogger.tsx + RestTimer.tsx</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#0f1115;color:#e8ecf3;font-size:16px">
+          <header style="display:flex;align-items:center;gap:12px;padding:62px 16px 12px;border-bottom:1px solid #2c3442">
+            <div style="min-height:44px;min-width:44px;padding:0 10px;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center">‹ Back</div>
+            <div style="display:flex;flex-direction:column"><h2 style="margin:0;font-size:19px;font-weight:650;letter-spacing:-0.01em">Incline Dumbbell Press</h2><span style="color:#97a0b3;font-size:13px;font-variant-numeric:tabular-nums">3×8–12 · rest 120s</span></div>
+          </header>
+          <div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:12px 16px 24px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="flex:1;display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-weight:650;color:#e5484d">Chest · Front delts</span><span style="font-size:13px;color:#97a0b3">with Triceps</span></div>
+              <div style="min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3;border:1px solid #2c3442;border-radius:12px"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14.5l6-6 6 6"></path></svg></div>
+            </div>
+            <div style="position:relative;flex-shrink:0;height:240px;background:radial-gradient(circle at 50% 30%,#1a1f29,#0f1115);border-radius:12px;overflow:hidden">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#97a0b3;font-size:13px;font-family:ui-monospace,Menlo,monospace;background:repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0 8px,transparent 8px 16px)">[ 3D anatomy model — three.js canvas ]</div>
+              <div style="position:absolute;bottom:8px;left:12px;display:flex;gap:14px;font-size:11px;color:#97a0b3"><span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;background:#e5484d"></i> primary</span><span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;background:#f5a524"></i> secondary</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(70,192,122,.12);border:1px solid #46c07a;color:#46c07a;border-radius:12px;padding:12px 14px;font-size:15px;font-weight:550;line-height:1.45"><svg style="width:1.1em;height:1.1em;flex-shrink:0;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17.5l5.5-5.5 3.5 3.5 7-7.5M14 7.5h5.5V13"></path></svg><span>You owned 3×12 @ 22.5 kg — try 25 kg per dumbbell today.</span></div>
+              <div style="color:#97a0b3;font-size:11px;text-transform:uppercase;letter-spacing:.09em">per dumbbell · kg × reps</div>
+              <div style="display:flex;align-items:center;gap:6px;color:#46c07a;background:rgba(70,192,122,.07);border:1px solid rgba(70,192,122,.3);border-radius:12px;padding:8px 10px;min-height:44px"><span style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg> Set 1</span><span style="margin-left:auto;font-variant-numeric:tabular-nums;font-size:16px">25 kg × 10 reps</span><span style="color:#97a0b3;margin-left:10px;display:flex"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17 4 20ZM13.5 6l3 3"></path></svg></span></div>
+              <div style="display:flex;align-items:center;gap:6px;background:#181c23;border:1px solid #2c3442;border-radius:12px;padding:8px 10px"><span style="width:38px;flex-shrink:0;color:#97a0b3;font-size:13px">Set 2</span><span style="display:flex;align-items:center"><span style="min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"></path></svg></span><span style="width:48px;min-height:44px;display:flex;align-items:center;justify-content:center;background:#212733;border:1px solid #2c3442;border-radius:8px;font-size:17px;font-weight:650;font-variant-numeric:tabular-nums">25</span><span style="min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span></span><span style="display:flex;align-items:center"><span style="min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"></path></svg></span><span style="width:48px;min-height:44px;display:flex;align-items:center;justify-content:center;background:#212733;border:1px solid #2c3442;border-radius:8px;font-size:17px;font-weight:650;font-variant-numeric:tabular-nums">8</span><span style="min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span></span><span style="margin-left:auto;flex-shrink:0;width:52px;min-height:44px;background:#4f8ef7;border:1px solid #4f8ef7;border-radius:12px;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg></span></div>
+              <div style="display:flex;align-items:center;gap:6px;background:#181c23;border:1px solid #2c3442;border-radius:12px;padding:8px 10px"><span style="width:38px;flex-shrink:0;color:#97a0b3;font-size:13px">Set 3</span><span style="display:flex;align-items:center"><span style="min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"></path></svg></span><span style="width:48px;min-height:44px;display:flex;align-items:center;justify-content:center;background:#212733;border:1px solid #2c3442;border-radius:8px;font-size:17px;font-weight:650;font-variant-numeric:tabular-nums">25</span><span style="min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span></span><span style="display:flex;align-items:center"><span style="min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"></path></svg></span><span style="width:48px;min-height:44px;display:flex;align-items:center;justify-content:center;background:#212733;border:1px solid #2c3442;border-radius:8px;font-size:17px;font-weight:650;font-variant-numeric:tabular-nums">8</span><span style="min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span></span><span style="margin-left:auto;flex-shrink:0;width:52px;min-height:44px;background:#4f8ef7;border:1px solid #4f8ef7;border-radius:12px;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"></path></svg></span></div>
+              <div style="align-self:flex-start;font-size:13px;color:#97a0b3;min-height:44px;min-width:44px;padding:0 12px;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center;gap:4px"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg> set</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <div style="flex:1;text-align:left;padding:10px 14px;font-size:13px;min-height:44px;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center;gap:4px"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"></path></svg> Form cues</div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;background:#212733;border:1px solid #2c3442;border-radius:12px;font-size:13px"><svg style="width:1.1em;height:1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5v13l10.5-6.5L8 5.5Z"></path></svg> Form video</div>
+            </div>
+          </div>
+          <div style="position:relative;overflow:hidden;display:flex;align-items:center;gap:8px;background:#212733;border-top:1px solid #2c3442;padding:10px 16px 44px">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:100%;background:rgba(79,142,247,.18);transform-origin:left;transform:scaleX(.89)"></div>
+            <span style="position:relative;font-variant-numeric:tabular-nums;font-weight:650;font-size:17px;flex:1">Rest 1:47</span>
+            <div style="position:relative;min-height:44px;padding:0 12px;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center">+30s</div>
+            <div style="position:relative;min-height:44px;padding:0 12px;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center">Skip</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- PROGRESS -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 11px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.55)">ProgressScreen.tsx + LineChart.tsx</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#0f1115;color:#e8ecf3;font-size:16px">
+          <div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:62px 16px 8px">
+            <div style="max-width:480px;margin:0 auto;padding-bottom:24px;display:flex;flex-direction:column;gap:10px">
+              <div style="background:#181c23;border:1px solid #2c3442;border-radius:12px;padding:14px">
+                <h2 style="margin:0;font-size:19px;font-weight:650;letter-spacing:-0.01em">Body weight</h2>
+                <div style="display:flex;align-items:center;gap:10px;margin:10px 0">
+                  <span style="display:flex;align-items:center"><span style="min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3">−</span><span style="width:48px;min-height:44px;display:flex;align-items:center;justify-content:center;background:#212733;border:1px solid #2c3442;border-radius:8px;font-size:17px;font-weight:650;font-variant-numeric:tabular-nums">82.4</span><span style="min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;color:#97a0b3">+</span><span style="color:#97a0b3;font-size:11px;margin:0 4px 0 2px">kg</span></span>
+                  <div style="margin-left:auto;white-space:nowrap;padding:0 14px;min-height:44px;background:#4f8ef7;border:1px solid #4f8ef7;border-radius:12px;color:#fff;font-size:13px;display:flex;align-items:center">Log today</div>
+                </div>
+                <svg viewBox="0 0 320 120" style="width:100%;height:auto;margin-top:8px;display:block" role="img">
+                  <text x="2" y="21" fill="#97a0b3" font-size="10">84.6</text>
+                  <text x="2" y="111" fill="#97a0b3" font-size="10">82.1</text>
+                  <g fill="#97a0b3" opacity=".45"><circle cx="34" cy="20" r="2.5"></circle><circle cx="59" cy="34" r="2.5"></circle><circle cx="84" cy="26" r="2.5"></circle><circle cx="109" cy="48" r="2.5"></circle><circle cx="134" cy="40" r="2.5"></circle><circle cx="159" cy="62" r="2.5"></circle><circle cx="184" cy="55" r="2.5"></circle><circle cx="209" cy="78" r="2.5"></circle><circle cx="234" cy="70" r="2.5"></circle><circle cx="259" cy="92" r="2.5"></circle><circle cx="284" cy="86" r="2.5"></circle><circle cx="312" cy="106" r="2.5"></circle></g>
+                  <polyline fill="none" stroke="#4f8ef7" stroke-width="2" points="34,30 59,33 84,36 109,42 134,46 159,53 184,58 209,66 234,71 259,80 284,88 312,95"></polyline>
+                  <g fill="#4f8ef7"><circle cx="34" cy="30" r="3"></circle><circle cx="59" cy="33" r="3"></circle><circle cx="84" cy="36" r="3"></circle><circle cx="109" cy="42" r="3"></circle><circle cx="134" cy="46" r="3"></circle><circle cx="159" cy="53" r="3"></circle><circle cx="184" cy="58" r="3"></circle><circle cx="209" cy="66" r="3"></circle><circle cx="234" cy="71" r="3"></circle><circle cx="259" cy="80" r="3"></circle><circle cx="284" cy="88" r="3"></circle><circle cx="312" cy="95" r="3"></circle></g>
+                </svg>
+                <p style="color:#97a0b3;font-size:13px;margin:8px 0;line-height:1.5">Faint dots: daily weigh-ins · line: 7-day average (watch this one).</p>
+              </div>
+              <h2 style="margin:12px 0 -2px;font-size:11px;font-weight:650;text-transform:uppercase;letter-spacing:.09em;color:#97a0b3">Exercises</h2>
+              <div style="background:#181c23;border:1px solid #2c3442;border-radius:12px;padding:14px">
+                <h3 style="margin:0;font-size:16px;font-weight:600">Incline Dumbbell Press</h3>
+                <svg viewBox="0 0 320 120" style="width:100%;height:auto;margin-top:8px;display:block"><text x="2" y="21" fill="#97a0b3" font-size="10">25</text><text x="2" y="111" fill="#97a0b3" font-size="10">17.5</text><polyline fill="none" stroke="#4f8ef7" stroke-width="2" points="34,107 90,107 145,78 201,78 256,49 312,20"></polyline><g fill="#4f8ef7"><circle cx="34" cy="107" r="3"></circle><circle cx="90" cy="107" r="3"></circle><circle cx="145" cy="78" r="3"></circle><circle cx="201" cy="78" r="3"></circle><circle cx="256" cy="49" r="3"></circle><circle cx="312" cy="20" r="3"></circle></g></svg>
+              </div>
+              <div style="background:#181c23;border:1px solid #2c3442;border-radius:12px;padding:14px">
+                <h3 style="margin:0;font-size:16px;font-weight:600">Assisted Pull-Up (assist — lower is stronger)</h3>
+                <svg viewBox="0 0 320 120" style="width:100%;height:auto;margin-top:8px;display:block"><text x="2" y="111" fill="#97a0b3" font-size="10">30</text><text x="2" y="21" fill="#97a0b3" font-size="10">20</text><polyline fill="none" stroke="#4f8ef7" stroke-width="2" points="34,107 90,107 145,78 201,78 256,49 312,20"></polyline><g fill="#4f8ef7"><circle cx="34" cy="107" r="3"></circle><circle cx="90" cy="107" r="3"></circle><circle cx="145" cy="78" r="3"></circle><circle cx="201" cy="78" r="3"></circle><circle cx="256" cy="49" r="3"></circle><circle cx="312" cy="20" r="3"></circle></g></svg>
+              </div>
+              <div style="background:#181c23;border:1px solid #2c3442;border-radius:12px;padding:14px">
+                <h3 style="margin:0;font-size:16px;font-weight:600">Chest-Supported Row</h3>
+                <svg viewBox="0 0 320 120" style="width:100%;height:auto;margin-top:8px;display:block"><text x="2" y="21" fill="#97a0b3" font-size="10">45</text><text x="2" y="111" fill="#97a0b3" font-size="10">35</text><polyline fill="none" stroke="#4f8ef7" stroke-width="2" points="34,107 90,85 145,85 201,63 256,42 312,20"></polyline><g fill="#4f8ef7"><circle cx="34" cy="107" r="3"></circle><circle cx="90" cy="85" r="3"></circle><circle cx="145" cy="85" r="3"></circle><circle cx="201" cy="63" r="3"></circle><circle cx="256" cy="42" r="3"></circle><circle cx="312" cy="20" r="3"></circle></g></svg>
+              </div>
+            </div>
+          </div>
+          <nav style="display:flex;border-top:1px solid #2c3442;background:#181c23;padding-bottom:34px">
+            <div style="flex:1;padding:12px 0;text-align:center;font-size:13px;color:#97a0b3">Today</div>
+            <div style="flex:1;padding:12px 0;text-align:center;font-size:13px;color:#4f8ef7;font-weight:650;box-shadow:inset 0 2px 0 #4f8ef7">Progress</div>
+            <div style="flex:1;padding:12px 0;text-align:center;font-size:13px;color:#97a0b3">Plan</div>
+          </nav>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- PLAN -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 11px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.55)">PlanScreen.tsx</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#0f1115;color:#e8ecf3;font-size:16px">
+          <div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:62px 16px 8px">
+            <div style="max-width:480px;margin:0 auto;padding-bottom:24px">
+              <h2 style="margin:0 0 8px;font-size:11px;font-weight:650;text-transform:uppercase;letter-spacing:.09em;color:#97a0b3">Your week</h2>
+              <div style="background:#181c23;border:1px solid #2c3442;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:14px">
+                <div style="display:flex;justify-content:space-between"><span style="color:#97a0b3">Sunday</span><span>Rest / walking</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#97a0b3">Monday</span><span>Upper Body A</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#97a0b3">Tuesday</span><span>Lower Body A</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#97a0b3">Wednesday</span><span>Easy cardio 30–40 min</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#97a0b3">Thursday</span><span>Upper Body B</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#97a0b3">Friday</span><span>Rest / walking</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#97a0b3">Saturday</span><span>Lower Body B *</span></div>
+                <p style="color:#97a0b3;font-size:13px;margin:8px 0;line-height:1.5">* plus 15–20 min easy incline walking if time allows.</p>
+              </div>
+              <h2 style="margin:22px 0 8px;font-size:11px;font-weight:650;text-transform:uppercase;letter-spacing:.09em;color:#97a0b3">How hard to train</h2>
+              <div style="background:#181c23;border:1px solid #2c3442;border-radius:12px;padding:14px">
+                <p style="margin:0">Most sets: stop with 1–3 good reps left in the tank — not total failure.</p>
+                <p style="color:#97a0b3;font-size:13px;margin:8px 0;line-height:1.5">Progress by reps first, then weight: reach the top of the rep range on every set, then add 2.5 kg and build back up. The app tracks this for you.</p>
+              </div>
+              <h2 style="margin:22px 0 8px;font-size:11px;font-weight:650;text-transform:uppercase;letter-spacing:.09em;color:#97a0b3">Nutrition targets</h2>
+              <div style="background:#181c23;border:1px solid #2c3442;border-radius:12px;padding:14px">
+                <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px">
+                  <li><b>Protein:</b> 160–180 g/day</li>
+                  <li><b>Calories:</b> keep a 300–500 kcal/day deficit</li>
+                  <li>Base meals on protein + vegetables/fruit + a sensible carb portion</li>
+                  <li>Keep alcohol, sugary drinks, desserts and snacking controlled — don't cut carbs entirely</li>
+                  <li>Weigh in 3–5 mornings/week; judge only the weekly average</li>
+                  <li>Average flat for 2–3 weeks → eat slightly less or move slightly more</li>
+                </ul>
+                <p style="color:#97a0b3;font-size:13px;margin:8px 0;line-height:1.5">Steps: 8,000–10,000/day plus two easy 25–40 min cardio sessions a week.</p>
+              </div>
+              <h2 style="margin:22px 0 8px;font-size:11px;font-weight:650;text-transform:uppercase;letter-spacing:.09em;color:#97a0b3">Backup</h2>
+              <div style="background:#181c23;border:1px solid #2c3442;border-radius:12px;padding:14px">
+                <p style="color:#97a0b3;font-size:13px;margin:8px 0;line-height:1.5">No backup yet — export once in a while.</p>
+                <div style="display:flex;gap:10px;margin:10px 0">
+                  <div style="min-height:44px;padding:0 12px;font-size:13px;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center">Export data</div>
+                  <div style="min-height:44px;padding:0 12px;font-size:13px;background:#212733;border:1px solid #2c3442;border-radius:12px;display:flex;align-items:center">Import backup</div>
+                </div>
+                <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:#97a0b3;margin-top:6px"><span style="width:18px;height:18px;border-radius:3px;background:#4f8ef7;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">✓</span> Rest-timer sound</label>
+              </div>
+              <p style="color:#97a0b3;font-size:13px;margin:16px 0 8px;line-height:1.5">3D anatomy model derived from <a href="#" style="color:#97a0b3">BodyParts3D</a> © DBCLS (CC-BY-SA 2.1 JP) and <a href="#" style="color:#97a0b3">Z-Anatomy</a> (CC-BY-SA 4.0), via BodyExplorer.</p>
+            </div>
+          </div>
+          <nav style="display:flex;border-top:1px solid #2c3442;background:#181c23;padding-bottom:34px">
+            <div style="flex:1;padding:12px 0;text-align:center;font-size:13px;color:#97a0b3">Today</div>
+            <div style="flex:1;padding:12px 0;text-align:center;font-size:13px;color:#97a0b3">Progress</div>
+            <div style="flex:1;padding:12px 0;text-align:center;font-size:13px;color:#4f8ef7;font-weight:650;box-shadow:inset 0 2px 0 #4f8ef7">Plan</div>
+          </nav>
+        </div>
+      </x-import>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
